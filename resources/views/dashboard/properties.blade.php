@@ -93,21 +93,11 @@
                                     </div>
                                 </div>
                                 @if($properties->isEmpty())
-                                <div class="col-lg-4">
-                                    <div class="image-div">
-                                        <img src="{{URL::asset('assets/img/14.jpg')}}" draggable="false" alt="">
-                                    </div>
-                                    <div class="text-div">
-                                        <p>
-                                            Mini Flat(Room and Parlour) - <i class="bi bi-geo-alt-fill"></i> Surulere
-                                        </p>
+                                <div class="col-12">
+                                    <div class="text-center">
                                         <h4>
-                                            3 Bedroom flats with BQ
+                                            No Property Posted
                                         </h4>
-                                        <h5>
-                                            NGN 800,000.00
-                                        </h5>
-                                        <button> <a href="properties.html"> View Property </a></button>
                                     </div>
                                 </div>
                                 @else
