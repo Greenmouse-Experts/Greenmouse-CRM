@@ -37,7 +37,8 @@ class HomeController extends Controller
         ]);
     }
 
-    public function downlines() {
+    public function downlines() 
+    {
         $downlines = User::latest()->where('referral_code', Auth::user()->referrer_code)->get();
         
 
@@ -46,7 +47,8 @@ class HomeController extends Controller
         ]);
     }
 
-    public function referral() {
+    public function referral() 
+    {
         return view('dashboard.referral');
     }
 
@@ -59,7 +61,8 @@ class HomeController extends Controller
         ]);
     }
 
-    public function view_property($id) {
+    public function view_property($id) 
+    {
         $Finder = Crypt::decrypt($id);
 
         $property = Property::findorfail($Finder);
@@ -69,11 +72,13 @@ class HomeController extends Controller
         ]);
     }
 
-    public function account() {
+    public function account() 
+    {
         return view('dashboard.account');
     }
 
-    public function update_user($id, Request $request) {
+    public function update_user($id, Request $request) 
+    {
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255'],
             'phone_number' => ['required', 'numeric'],
@@ -103,7 +108,7 @@ class HomeController extends Controller
 
         $user = User::findorfail($userFinder);
         
-        $user->password = Hash::make($request->password);
+        $user->password = Hash::make($request->new_password);
         $user->save();
 
         return back()->with([

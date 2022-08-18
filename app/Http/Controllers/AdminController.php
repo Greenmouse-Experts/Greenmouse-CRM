@@ -199,7 +199,7 @@ class AdminController extends Controller
 
         $user = User::findorfail($userFinder);
         
-        $user->password = Hash::make($request->password);
+        $user->password = Hash::make($request->new_password);
         $user->save();
 
         return back()->with([

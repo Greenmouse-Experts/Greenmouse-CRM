@@ -15,9 +15,9 @@ class AdminSeeder extends Seeder
     {
         \App\Models\User::create([
             'name' => 'Admin',
-            'email' => 'admin@reftophomes.com.ng',
+            'email' => 'greenmousetest@gmail.com',
             'email_verified_at' => now(),
-            'password' => bcrypt('Password1'),
+            'password' => bcrypt('password'),
             'user_type' => 'Administrator',
             'phone_number' => 1234567890
         ]);

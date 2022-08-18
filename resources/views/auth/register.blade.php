@@ -37,6 +37,7 @@
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4"> <img src="{{URL::asset('assets/img/reftophome-logo.png')}}" alt="{{config('app.name')}}"></h1>
                   </div>
+                  <!-- @include('layouts.alert') -->
                   <form class="user" method="POST" action="{{ route('register') }}">
                         @csrf
                     <div class="form-group">
@@ -72,10 +73,18 @@
                     <div class="form-group">
                         <label>Referral Code</label>
                         @if ($referrer_id == true)
-                        <input type="text" name="referral_code" placeholder="{{$referrer_id}}" value="{{$referrer_id}}" class="form-control form-control-user" aria-describedby="referral_code" placeholder="Enter Referrer Code" readonly required>
+                        <input type="text" name="referral_code" placeholder="{{$referrer_id}}" value="{{$referrer_id}}" class="form-control form-control-user @error('referral_code') is-invalid @enderror" aria-describedby="referral_code" placeholder="Enter Referrer Code" readonly required>
                         @else
-                        <input type="text" name="referral_code" class="form-control form-control-user" aria-describedby="referral_code" placeholder="Enter Referral Code" required>
+                        <br>
+                        <label class="text-danger">If empty, please get a referral link</label>
+                        <input type="text" name="referral_code" class="form-control form-control-user @error('referral_code') is-invalid @enderror" aria-describedby="referral_code" placeholder="Get a Referral Link" readonly required>
                         @endif
+
+                        @error('referral_code')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
 
                     <div class="form-group">

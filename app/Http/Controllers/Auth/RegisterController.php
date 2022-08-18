@@ -67,21 +67,21 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $user = User::create([
-            'referrer_code' => 'RHU-'.$this->referrer_id(5),
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'phone_number' => $data['phone_number'],
-            'password' => Hash::make($data['password']),
-            'user_type' => 'User',
-            'referral_code' => $data['referral_code'], 
-        ]);
+                'referrer_code' => 'RHU-'.$this->referrer_id(5),
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'phone_number' => $data['phone_number'],
+                'password' => Hash::make($data['password']),
+                'user_type' => 'User',
+                'referral_code' => $data['referral_code'], 
+            ]);
 
-        if ($user->referral_code !== null) {
-            $myuser = User::where('referrer_code', $user->referral_code)->first();
+            if ($user->referral_code !== null) {
+                $myuser = User::where('referrer_code', $user->referral_code)->first();
 
-            $myuser->notify(new ReferrerNotification($user));
-        }
-    
+                $myuser->notify(new ReferrerNotification($user));
+            }
+        
         return $user;
     }
 
