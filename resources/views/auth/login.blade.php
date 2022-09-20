@@ -38,7 +38,7 @@
                 <div class="py-5">
                   
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4"> <img src="{{URL::asset('assets/img/reftophome-logo.png')}}" alt="logo" width="200px"></h1>
+                    <h1 class="h4 text-gray-900 mb-4"> <img src="{{URL::asset('assets/img/greenmouse-logo.png')}}" alt="logo" width="300px"></h1>
                   </div>
                   <form class="user" method="POST" action="{{ route('login') }}">
                     @csrf

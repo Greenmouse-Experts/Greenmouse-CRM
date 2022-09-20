@@ -29,7 +29,7 @@
                         <div class="col-lg-6 offset-lg-3">
                             <div class="py-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4"> <img src="{{URL::asset('assets/img/reftophome-logo.png')}}" alt="logo" width="200px"></h1>
+                                    <h1 class="h4 text-gray-900 mb-4"> <img src="{{URL::asset('assets/img/greenmouse-logo.png')}}" alt="logo" width="300px"></h1>
                                     <h4 class="mb-4 font-weight-bold">{{ __('Reset Password') }}</h4>
                                 </div>
                                 @if (session('status'))

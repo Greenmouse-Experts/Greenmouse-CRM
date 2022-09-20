@@ -34,7 +34,7 @@
                             <div class="col-lg-6 offset-lg-3">
                                 <div class="py-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4"> <img src="{{URL::asset('assets/img/reftophome-logo.png')}}" alt="{{config('app.name')}}"></h1>
+                                        <h1 class="h4 text-gray-900 mb-4"> <img src="{{URL::asset('assets/img/greenmouse-logo.png')}}" alt="{{config('app.name')}}"></h1>
                                         <h4 class="mb-4 font-weight-bold">Admin Login</h4>
                                     </div>
                                 

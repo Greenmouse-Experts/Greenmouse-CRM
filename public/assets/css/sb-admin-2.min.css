@@ -1,15 +1,11 @@
 /*!
- * Start Bootstrap - SB Admin 2 v4.1.1 (https://startbootstrap.com/themes/sb-admin-2)
- * Copyright 2013-2020 Start Bootstrap
- * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-sb-admin-2/blob/master/LICENSE)
- */ /*!
  * Bootstrap v4.5.0 (https://getbootstrap.com/)
  * Copyright 2011-2020 The Bootstrap Authors
  * Copyright 2011-2020 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 :root {
-  --blue: #145F82;
+  --blue: #84C225;
   --indigo: #6610f2;
   --purple: #6f42c1;
   --pink: #e83e8c;
@@ -22,7 +18,7 @@
   --white: #fff;
   --gray: #858796;
   --gray-dark: #5a5c69;
-  --primary: #145F82;
+  --primary: #84C225;
   --secondary: #858796;
   --success: #1cc88a;
   --info: #36b9cc;
@@ -155,7 +151,7 @@ sup {
   top: -0.5em;
 }
 a {
-  color: #145F82;
+  color: #84C225;
   text-decoration: none;
   background-color: transparent;
 }
@@ -2255,8 +2251,8 @@ fieldset:disabled a.btn {
 }
 .btn-primary {
   color: #fff;
-  background-color: #145F82;
-  border-color: #145F82;
+  background-color: #84C225;
+  border-color: #84C225;
 }
 .btn-primary:hover {
   color: #fff;
@@ -2273,8 +2269,8 @@ fieldset:disabled a.btn {
 .btn-primary.disabled,
 .btn-primary:disabled {
   color: #fff;
-  background-color: #145F82;
-  border-color: #145F82;
+  background-color: #84C225;
+  border-color: #84C225;
 }
 .btn-primary:not(:disabled):not(.disabled).active,
 .btn-primary:not(:disabled):not(.disabled):active,
@@ -2534,13 +2530,13 @@ fieldset:disabled a.btn {
   box-shadow: 0 0 0 0.2rem rgba(115, 116, 128, 0.5);
 }
 .btn-outline-primary {
-  color: #145F82;
-  border-color: #145F82;
+  color: #84C225;
+  border-color: #84C225;
 }
 .btn-outline-primary:hover {
   color: #fff;
-  background-color: #145F82;
-  border-color: #145F82;
+  background-color: #84C225;
+  border-color: #84C225;
 }
 .btn-outline-primary.focus,
 .btn-outline-primary:focus {
@@ -2548,15 +2544,15 @@ fieldset:disabled a.btn {
 }
 .btn-outline-primary.disabled,
 .btn-outline-primary:disabled {
-  color: #145F82;
+  color: #84C225;
   background-color: transparent;
 }
 .btn-outline-primary:not(:disabled):not(.disabled).active,
 .btn-outline-primary:not(:disabled):not(.disabled):active,
 .show > .btn-outline-primary.dropdown-toggle {
   color: #fff;
-  background-color: #145F82;
-  border-color: #145F82;
+  background-color: #84C225;
+  border-color: #84C225;
 }
 .btn-outline-primary:not(:disabled):not(.disabled).active:focus,
 .btn-outline-primary:not(:disabled):not(.disabled):active:focus,
@@ -2775,7 +2771,7 @@ fieldset:disabled a.btn {
 }
 .btn-link {
   font-weight: 400;
-  color: #145F82;
+  color: #84C225;
   text-decoration: none;
 }
 .btn-link:hover {
@@ -3039,7 +3035,7 @@ input[type="submit"].btn-block {
 .dropdown-item:active {
   color: #fff;
   text-decoration: none;
-  background-color: #145F82;
+  background-color: #84C225;
 }
 .dropdown-item.disabled,
 .dropdown-item:disabled {
@@ -3353,8 +3349,8 @@ input[type="submit"].btn-block {
 }
 .custom-control-input:checked ~ .custom-control-label::before {
   color: #fff;
-  border-color: #145F82;
-  background-color: #145F82;
+  border-color: #84C225;
+  background-color: #84C225;
 }
 .custom-control-input:focus ~ .custom-control-label::before {
   box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
@@ -3411,8 +3407,8 @@ input[type="submit"].btn-block {
 .custom-checkbox
   .custom-control-input:indeterminate
   ~ .custom-control-label::before {
-  border-color: #145F82;
-  background-color: #145F82;
+  border-color: #84C225;
+  background-color: #84C225;
 }
 .custom-checkbox
   .custom-control-input:indeterminate
@@ -3620,7 +3616,7 @@ input[type="submit"].btn-block {
   width: 1rem;
   height: 1rem;
   margin-top: -0.25rem;
-  background-color: #145F82;
+  background-color: #84C225;
   border: 0;
   border-radius: 1rem;
   -webkit-transition: background-color 0.15s ease-in-out,
@@ -3651,7 +3647,7 @@ input[type="submit"].btn-block {
 .custom-range::-moz-range-thumb {
   width: 1rem;
   height: 1rem;
-  background-color: #145F82;
+  background-color: #84C225;
   border: 0;
   border-radius: 1rem;
   -moz-transition: background-color 0.15s ease-in-out,
@@ -3685,7 +3681,7 @@ input[type="submit"].btn-block {
   margin-top: 0;
   margin-right: 0.2rem;
   margin-left: 0.2rem;
-  background-color: #145F82;
+  background-color: #84C225;
   border: 0;
   border-radius: 1rem;
   -ms-transition: background-color 0.15s ease-in-out,
@@ -3806,7 +3802,7 @@ input[type="submit"].btn-block {
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
   color: #fff;
-  background-color: #145F82;
+  background-color: #84C225;
 }
 .nav-fill .nav-item {
   flex: 1 1 auto;
@@ -4424,7 +4420,7 @@ input[type="submit"].btn-block {
   padding: 0.5rem 0.75rem;
   margin-left: -1px;
   line-height: 1.25;
-  color: #145F82;
+  color: #84C225;
   background-color: #fff;
   border: 1px solid #dddfeb;
 }
@@ -4452,8 +4448,8 @@ input[type="submit"].btn-block {
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background-color: #145F82;
-  border-color: #145F82;
+  background-color: #84C225;
+  border-color: #84C225;
 }
 .page-item.disabled .page-link {
   color: #858796;
@@ -4524,7 +4520,7 @@ a.badge:hover {
 }
 .badge-primary {
   color: #fff;
-  background-color: #145F82;
+  background-color: #84C225;
 }
 a.badge-primary:focus,
 a.badge-primary:hover {
@@ -4794,7 +4790,7 @@ a.badge-dark:focus {
   color: #fff;
   text-align: center;
   white-space: nowrap;
-  background-color: #145F82;
+  background-color: #84C225;
   transition: width 0.6s ease;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -4879,8 +4875,8 @@ a.badge-dark:focus {
 .list-group-item.active {
   z-index: 2;
   color: #fff;
-  background-color: #145F82;
-  border-color: #145F82;
+  background-color: #84C225;
+  border-color: #84C225;
 }
 .list-group-item + .list-group-item {
   border-top-width: 0;
@@ -5881,7 +5877,7 @@ a.close.disabled {
   vertical-align: text-top !important;
 }
 .bg-primary {
-  background-color: #145F82 !important;
+  background-color: #84C225 !important;
 }
 a.bg-primary:focus,
 a.bg-primary:hover,
@@ -5989,7 +5985,7 @@ button.bg-dark:hover {
   border-left: 0 !important;
 }
 .border-primary {
-  border-color: #145F82 !important;
+  border-color: #84C225 !important;
 }
 .border-secondary {
   border-color: #858796 !important;
@@ -8808,7 +8804,7 @@ button.bg-dark:hover {
   color: #fff !important;
 }
 .text-primary {
-  color: #145F82 !important;
+  color: #84C225 !important;
 }
 a.text-primary:focus,
 a.text-primary:hover {
@@ -9083,8 +9079,8 @@ a:focus {
   animation-timing-function: opacity cubic-bezier(0, 1, 0.4, 1);
 }
 .bg-gradient-primary {
-  background-color: #145F82;
-  background-image: linear-gradient(180deg, #145F82 10%, #224abe 100%);
+  background-color: #84C225;
+  background-image: linear-gradient(180deg, #84C225 10%, #224abe 100%);
   background-size: cover;
 }
 .bg-gradient-secondary {
@@ -9093,7 +9089,7 @@ a:focus {
   background-size: cover;
 }
 .bg-gradient-success {
-  background-color: #145F82;
+  background-color: #84C225;
   /* background-image: linear-gradient(180deg, #235319 10%, #13855c 100%); */
   background-size: cover;
 }
@@ -9195,10 +9191,10 @@ a:focus {
   justify-content: center;
 }
 .border-left-primary {
-  border-left: 0.25rem solid #145F82 !important;
+  border-left: 0.25rem solid #84C225 !important;
 }
 .border-bottom-primary {
-  border-bottom: 0.25rem solid #145F82 !important;
+  border-bottom: 0.25rem solid #84C225 !important;
 }
 .border-left-secondary {
   border-left: 0.25rem solid #858796 !important;
@@ -9345,8 +9341,8 @@ a:focus {
   overflow: hidden;
 }
 .topbar .dropdown-list .dropdown-header {
-  background-color: #145F82;
-  border: 1px solid #145F82;
+  background-color: #84C225;
+  border: 1px solid #84C225;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
   color: #fff;
@@ -9492,7 +9488,7 @@ a:focus {
 }
 .sidebar .nav-item .collapse .collapse-inner .collapse-item.active,
 .sidebar .nav-item .collapsing .collapse-inner .collapse-item.active {
-  color: #145F82;
+  color: #84C225;
   font-weight: 700;
 }
 .sidebar #sidebarToggle {
@@ -10249,7 +10245,7 @@ form.user .btn-user {
   content: attr(data-text);
   position: absolute;
   left: -2px;
-  text-shadow: 1px 0 #145F82;
+  text-shadow: 1px 0 #84C225;
   top: 0;
   color: #5a5c69;
   background: #f8f9fc;

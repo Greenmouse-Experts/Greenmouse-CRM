@@ -4,7 +4,7 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
         <div class="sidebar-brand-icon" style="background: #fff; border-radius: 5px; padding: 5px;">
-            <img src="{{URL::asset('assets/img/reftophome-logo.png')}}" alt="logo" width="90px">
+            <img src="{{URL::asset('assets/img/greenmouse-logo.png')}}" alt="logo" width="90px">
         </div>
     </a>
 

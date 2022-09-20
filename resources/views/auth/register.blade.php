@@ -35,11 +35,11 @@
                 <div class="py-5">
                   
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4"> <img src="{{URL::asset('assets/img/reftophome-logo.png')}}" alt="{{config('app.name')}}"></h1>
+                    <h1 class="h4 text-gray-900 mb-4"> <img src="{{URL::asset('assets/img/greenmouse-logo.png')}}" alt="{{config('app.name')}}"></h1>
                   </div>
                   <!-- @include('layouts.alert') -->
                   <form class="user" method="POST" action="{{ route('register') }}">
-                        @csrf
+                    @csrf
                     <div class="form-group">
                         <label>Name</label>
                         <input type="text" name="name" class="form-control form-control-user @error('name') is-invalid @enderror" aria-describedby="name" placeholder="Enter Your Name" required>

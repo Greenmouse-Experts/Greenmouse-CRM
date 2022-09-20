@@ -120,7 +120,7 @@
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                     <tr>
                         <td align="left" valign="top" style="padding: 40px 30px 40px 30px; font-size: 20px;"> 
-                            <img src="{{URL::asset('assets/img/reftophome-logo.png')}}" alt="{{config('app.name')}}"></a>
+                            <img src="{{URL::asset('assets/img/greenmouse-logo.png')}}" alt="{{config('app.name')}}"></a>
 						</td>
                     </tr>
                 </table>
