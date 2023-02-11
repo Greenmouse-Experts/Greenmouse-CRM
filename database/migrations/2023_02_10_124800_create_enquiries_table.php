@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCallBookingsTable extends Migration
+class CreateEnquiriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,17 @@ class CreateCallBookingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('call_bookings', function (Blueprint $table) {
+        Schema::create('enquiries', function (Blueprint $table) {
             $table->id();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('phone_number')->nullable();
             $table->string('email')->nullable();
+            $table->string('location')->nullable();
             $table->string('how_do_you_know_about_us')->nullable();
-            $table->text('comment')->nullable();
+            $table->text('enquiry_details')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -32,6 +34,6 @@ class CreateCallBookingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('call_bookings');
+        Schema::dropIfExists('enquiries');
     }
 }

@@ -4,9 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\CallBooking;
+use App\Models\Category;
+use App\Models\Client;
 use App\Models\CustomerManagement;
+use App\Models\Debtor;
+use App\Models\Enquiry;
+use App\Models\Expense;
+use App\Models\Income;
+use App\Models\Product;
 use App\Models\Property;
+use App\Models\Supplier;
 use App\Models\Task;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -208,83 +215,8 @@ class AdminController extends Controller
         ]); 
     }
 
-    public function call_bookings() {
-        $call_bookings = CallBooking::latest()->get();
-
-        return view('admin.call_bookings',[
-            'call_bookings' => $call_bookings
-        ]);
-    }
-
-    public function add_call_bookings(Request $request) {
-        //Validate Request
-        $this->validate($request, [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'phone_number' => ['required', 'numeric'],
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'how_do_you_know_about_us' => ['required', 'string', 'max:255'],
-            'comment' => ['required', 'string'],
-        ]);
-
-        CallBooking::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'phone_number' => $request->phone_number,
-            'email' => $request->email,
-            'how_do_you_know_about_us' => $request->how_do_you_know_about_us,
-            'comment' => $request->comment, 
-        ]);
-
-        return back()->with([
-            'type' => 'success',
-            'message' => 'Call Booking Added Successfully'
-        ]);
-
-    }
-
-    public function delete_call_bookings($id) {
-        $Finder = Crypt::decrypt($id);
-
-        CallBooking::findorfail($Finder)->delete();
-        
-        return back()->with([
-            'type' => 'success',
-            'message' => 'Call Booking Deleted Successfully!'
-        ]); 
-    }
-
-    public function edit_call_bookings($id, Request $request) {
-        //Validate Request
-        $this->validate($request, [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'phone_number' => ['required', 'numeric'],
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'how_do_you_know_about_us' => ['required', 'string', 'max:255'],
-            'comment' => ['required', 'string'],
-        ]);
-        
-        $Finder = Crypt::decrypt($id);
-
-        $callBooking = CallBooking::findorfail($Finder);
-
-        $callBooking->first_name = $request->first_name;
-        $callBooking->last_name = $request->last_name;
-        $callBooking->phone_number = $request->phone_number;
-        $callBooking->email = $request->email;
-        $callBooking->how_do_you_know_about_us = $request->how_do_you_know_about_us;
-        $callBooking->comment = $request->comment; 
-        $callBooking->save();
-
-        return back()->with([
-            'type' => 'success',
-            'message' => 'Call Booking Updated Successfully'
-        ]);
-
-    }
-
-    public function properties() {
+    public function properties() 
+    {
         $properties = Property::latest()->get();
 
         return view('admin.properties',[
@@ -292,11 +224,13 @@ class AdminController extends Controller
         ]);
     }
 
-    public function property() {
+    public function property() 
+    {
         return view('admin.add_property');
     }
 
-    public function add_property(Request $request) {
+    public function add_property(Request $request) 
+    {
         //Validate Request
         $this->validate($request, [
             'title' => ['required', 'string', 'max:255'],
@@ -351,7 +285,8 @@ class AdminController extends Controller
         }
     }
 
-    public function view_property($id) {
+    public function view_property($id) 
+    {
         $Finder = Crypt::decrypt($id);
 
         $property = Property::findorfail($Finder);
@@ -361,7 +296,8 @@ class AdminController extends Controller
         ]);
     }
 
-    public function update_property($id, Request $request) {
+    public function update_property($id, Request $request) 
+    {
         //Validate Request
         $this->validate($request, [
             'title' => ['required', 'string', 'max:255'],
@@ -430,7 +366,8 @@ class AdminController extends Controller
     }
 
 
-    public function delete_property($id) {
+    public function delete_property($id) 
+    {
         $Finder = Crypt::decrypt($id);
 
         $property = Property::findorfail($Finder);
@@ -449,119 +386,480 @@ class AdminController extends Controller
         ]);
     }
 
-    public function customers() {
-        $customers = CustomerManagement::latest()->get();
+    // Client
+    public function clients() 
+    {
+        $clients = Client::latest()->get();
 
-        return view('admin.customers',[
-            'customers' => $customers
+        return view('admin.client.clients',[
+            'clients' => $clients
         ]);
     }
 
-    public function customer_management() {
-        return view('admin.add_customer');
+    public function client_management() 
+    {
+        return view('admin.client.add_client');
     }
 
-    public function add_customer_management(Request $request) {
+    public function add_client_management(Request $request) 
+    {
         //Validate Request
         $this->validate($request, [
+            'title' => ['required', 'string', 'max:255'],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'address' => ['required', 'string'],
+            'address_1' => ['required', 'string'],
             'phone_number' => ['required', 'numeric'],
             'email' => ['required', 'string'],
-            'occupation' => ['required', 'string'],
-            'property_of_interest' => ['required', 'string'],
-            'offer' => ['required', 'string'],
-            'when_do_you_want_to_move_in' => ['required', 'string']
         ]);
 
-
-        CustomerManagement::create([
+        Client::create([
+            'title' => $request->title,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'address' => $request->address,
-            'address_2' => $request->address_2,
-            'phone_number' => $request->phone_number, 
+            'phone' => $request->phone_number, 
             'email' => $request->email,
+            'address_1' => $request->address_1,
+            'address_2' => $request->address_2,
             'occupation' => $request->occupation,
-            'property_of_interest' => $request->property_of_interest,
-            'offer' => $request->offer,
-            'when_do_you_want_to_move_in' => $request->when_do_you_want_to_move_in,
+            'section' => $request->section,
+            'admin_id' => Auth::user()->id
         ]);
 
-        return redirect()->route('customers')->with([
+        return redirect()->route('clients')->with([
             'type' => 'success',
-            'message' => 'Customer Added Successfully!'
+            'message' => 'Client Added Successfully!'
         ]);
     }
 
-    public function delete_customer_management($id) {
+    public function delete_client_management($id) 
+    {
         $Finder = Crypt::decrypt($id);
 
-        CustomerManagement::findorfail($Finder)->delete();
+        Client::findorfail($Finder)->delete();
         
         return back()->with([
             'type' => 'success',
-            'message' => 'Customer Details Deleted Successfully!',
+            'message' => 'Client Details Deleted Successfully!',
         ]);
     }
 
-    public function view_customer_management($id) {
+    public function view_client_management($id) 
+    {
         $Finder = Crypt::decrypt($id);
 
-        $customer = CustomerManagement::findorfail($Finder);
+        $client = Client::findorfail($Finder);
         
-        return view('admin.view_customer', [
-            'customer' => $customer
+        return view('admin.client.view_client', [
+            'client' => $client
         ]);
     }
 
-    public function update_customer_management($id, Request $request) {
+    public function update_client_management($id, Request $request) 
+    {
         //Validate Request
         $this->validate($request, [
+            'title' => ['required', 'string', 'max:255'],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'address' => ['required', 'string'],
+            'address_1' => ['required', 'string'],
             'phone_number' => ['required', 'numeric'],
             'email' => ['required', 'string'],
-            'occupation' => ['required', 'string'],
-            'property_of_interest' => ['required', 'string'],
-            'offer' => ['required', 'string'],
-            'when_do_you_want_to_move_in' => ['required', 'string']
         ]);
 
         $Finder = Crypt::decrypt($id);
 
-        $customer = CustomerManagement::findorfail($Finder);
+        $client = Client::findorfail($Finder);
 
-        $customer->update([
+        $client->update([
+            'title' => $request->title,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'address' => $request->address,
-            'address_2' => $request->address_2,
-            'phone_number' => $request->phone_number, 
+            'phone' => $request->phone_number, 
             'email' => $request->email,
+            'address_1' => $request->address_1,
+            'address_2' => $request->address_2,
             'occupation' => $request->occupation,
-            'property_of_interest' => $request->property_of_interest,
-            'offer' => $request->offer,
-            'when_do_you_want_to_move_in' => $request->when_do_you_want_to_move_in,
+            'section' => $request->section,
         ]);
 
-        return redirect()->route('customers')->with([
+        return redirect()->route('clients')->with([
             'type' => 'success',
-            'message' => 'Customer Updated Successfully!'
+            'message' => 'Client Updated Successfully!'
         ]);
     }
 
-    public function todo_list() {
+    // Category
+    public function categories() 
+    {
+        $categories = Category::latest()->get();
+
+        return view('admin.category.categories', [
+            'categories' => $categories
+        ]);
+    }
+
+    public function add_category(Request $request) 
+    {
+        //Validate Request
+        $this->validate($request, [
+            'name' => ['required', 'string']
+        ]);
+
+        Category::create([
+            'name' => $request->name
+        ]);
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Category added successfully.'
+        ]);
+    }
+
+    public function update_category($id, Request $request) 
+    {
+        //Validate Request
+        $this->validate($request, [
+            'name' => ['required', 'string']
+        ]);
+
+        $Finder = Crypt::decrypt($id);
+
+        $category = Category::findorfail($Finder);
+
+        $category->update([
+            'name' => $request->name
+        ]);
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Category updated successfully.'
+        ]);
+    }
+
+    public function delete_category($id) 
+    {
+        $Finder = Crypt::decrypt($id);
+
+        Category::findorfail($Finder)->delete();
+        
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Category deleted successfully.',
+        ]);
+    }
+
+    // Supplier
+    public function suppliers() 
+    {
+        $suppliers = Supplier::latest()->get();
+
+        return view('admin.supplier.suppliers', [
+            'suppliers' => $suppliers
+        ]);
+    }
+
+    public function add_supplier(Request $request) 
+    {
+        //Validate Request
+        $this->validate($request, [
+            'name' => ['required', 'string'],
+            'email' => ['required', 'string', 'email'],
+            'phone' => ['required', 'numeric'],
+            'address' => ['required', 'string'],
+            'shopName' => ['required', 'string'],
+        ]);
+
+        if (request()->hasFile('photo')) 
+        {
+            $this->validate($request, [
+                'photo' => 'required|mimes:jpeg,png,jpg',
+            ]);
+            $filename = request()->photo->getClientOriginalName();
+            request()->photo->storeAs('inventory_supplier_image', $filename, 'public');
+
+            Supplier::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'shopName' => $request->shopName,
+                'photo' => '/storage/inventory_supplier_image/'.$filename,
+            ]);
+
+            return back()->with([
+                'type' => 'success',
+                'message' => 'Supplier added successfully.'
+            ]);
+        }
+
+        Supplier::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'shopName' => $request->shopName
+        ]);
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Supplier added successfully.'
+        ]);
+    }
+
+    public function update_supplier($id, Request $request) 
+    {
+        //Validate Request
+        $this->validate($request, [
+            'name' => ['required', 'string'],
+            'email' => ['required', 'string', 'email'],
+            'phone' => ['required', 'numeric'],
+            'address' => ['required', 'string'],
+            'shopName' => ['required', 'string'],
+        ]);
+
+        $Finder = Crypt::decrypt($id);
+
+        $supplier = Supplier::findorfail($Finder);
+
+        if (request()->hasFile('photo')) 
+        {
+            $this->validate($request, [
+                'photo' => 'required|mimes:jpeg,png,jpg',
+            ]);
+            $filename = request()->photo->getClientOriginalName();
+            if($supplier->photo) {
+                Storage::delete(str_replace("storage", "public", $supplier->photo));
+            }
+            request()->photo->storeAs('inventory_supplier_image', $filename, 'public');
+
+            $supplier->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'shopName' => $request->shopName,
+                'photo' => '/storage/inventory_supplier_image/'.$filename,
+            ]);
+
+            return back()->with([
+                'type' => 'success',
+                'message' => 'Supplier updated successfully.'
+            ]);
+        }
+
+        $supplier->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'shopName' => $request->shopName
+        ]);
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Supplier updated successfully.'
+        ]);
+    }
+
+    public function delete_supplier($id) 
+    {
+        $Finder = Crypt::decrypt($id);
+
+        $supplier = Supplier::findorfail($Finder);
+        
+        if($supplier->photo) {
+            Storage::delete(str_replace("storage", "public", $supplier->photo));
+        }
+
+        $supplier->delete();
+        
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Supplier deleted successfully.',
+        ]);
+    }
+
+    // Products
+    public function products() 
+    {
+        $products = Product::latest()->get();
+
+        return view('admin.product.products', [
+            'products' => $products
+        ]);
+    }
+
+    function product_code($input, $strength = 3) {
+        $input = '0123456789';
+        $input_length = strlen($input);
+        $random_string = '';
+        for($i = 0; $i < $strength; $i++) {
+            $random_character = $input[mt_rand(0, $input_length - 1)];
+            $random_string .= $random_character;
+        }
+    
+        return $random_string;
+    }
+
+    public function add_product(Request $request) 
+    {
+        //Validate Request
+        $this->validate($request, [
+            'category_id' => ['required', 'string'],
+            'supplier_id' => ['required', 'string'],
+            'product_name' => ['required', 'string'],
+            'product_description' => ['required', 'string'],
+            'quantity' => ['required', 'string'],
+            'price' => ['required', 'string'],
+            'weight' => ['required', 'string'],
+        ]);
+
+        if (request()->hasFile('photo')) 
+        {
+            $this->validate($request, [
+                'photo' => 'required|mimes:jpeg,png,jpg',
+            ]);
+            $filename = request()->photo->getClientOriginalName();
+            request()->photo->storeAs('inventory_product_image', $filename, 'public');
+
+            Product::create([
+                'category_id' => $request->category_id,
+                'supplier_id' => $request->supplier_id,
+                'product_name' => $request->product_name,
+                'product_description' => $request->product_description,
+                'product_code' => ucfirst(substr($request->product_name, 0, 1)).$this->product_code(3),
+                'quantity' => $request->quantity,
+                'price' => $request->price,
+                'weight' => $request->weight,
+                'product_image' => '/storage/inventory_product_image/'.$filename,
+            ]);
+
+            return back()->with([
+                'type' => 'success',
+                'message' => 'Supplier added successfully.'
+            ]);
+        }
+
+        Product::create([
+            'category_id' => $request->category_id,
+            'supplier_id' => $request->supplier_id,
+            'product_name' => $request->product_name,
+            'product_description' => $request->product_description,
+            'product_code' => ucfirst(substr($request->product_name, 0, 3)).$this->product_code(3),
+            'quantity' => $request->quantity,
+            'price' => $request->price,
+            'weight' => $request->weight,
+        ]);
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Product added successfully.'
+        ]);
+    }
+
+    public function view_product($id) 
+    {
+        $Finder = Crypt::decrypt($id);
+
+        $product = Product::find($Finder);
+
+        return view('admin.product.view_product', [
+            'product' => $product
+        ]);
+    }
+
+    public function update_product($id, Request $request) 
+    {
+        //Validate Request
+        $this->validate($request, [
+            'category_id' => ['required', 'string'],
+            'supplier_id' => ['required', 'string'],
+            'product_name' => ['required', 'string'],
+            'product_description' => ['required', 'string'],
+            'quantity' => ['required', 'string'],
+            'price' => ['required', 'string'],
+            'weight' => ['required', 'string'],
+        ]);
+
+        $Finder = Crypt::decrypt($id);
+
+        $product = Product::findorfail($Finder);
+
+        if (request()->hasFile('photo')) 
+        {
+            $this->validate($request, [
+                'photo' => 'required|mimes:jpeg,png,jpg',
+            ]);
+            $filename = request()->photo->getClientOriginalName();
+            if($product->product_image) {
+                Storage::delete(str_replace("storage", "public", $product->product_image));
+            }
+            request()->photo->storeAs('inventory_product_image', $filename, 'public');
+
+            $product->update([
+                'category_id' => $request->category_id,
+                'supplier_id' => $request->supplier_id,
+                'product_name' => $request->product_name,
+                'product_description' => $request->product_description,
+                'quantity' => $request->quantity,
+                'price' => $request->price,
+                'weight' => $request->weight,
+                'product_image' => '/storage/inventory_product_image/'.$filename,
+            ]);
+
+            return back()->with([
+                'type' => 'success',
+                'message' => 'Supplier updated successfully.'
+            ]);
+        }
+
+        $product->update([
+            'category_id' => $request->category_id,
+            'supplier_id' => $request->supplier_id,
+            'product_name' => $request->product_name,
+            'product_description' => $request->product_description,
+            'quantity' => $request->quantity,
+            'price' => $request->price,
+            'weight' => $request->weight,
+        ]);
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Product updated successfully.'
+        ]);
+    }
+
+    public function delete_product($id) 
+    {
+        $Finder = Crypt::decrypt($id);
+
+        $product = Product::findorfail($Finder);
+        
+        if($product->product_image) {
+            Storage::delete(str_replace("storage", "public", $product->product_image));
+        }
+
+        $product->delete();
+        
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Product deleted successfully.',
+        ]);
+    }
+
+    // Todo
+    public function todo_list() 
+    {
         $todoLists = Task::latest()->get();
 
-        return view('admin.todo_list', [
+        return view('admin.todo.todo_list', [
             'todoLists' => $todoLists
         ]);
     }
 
-    public function add_todo_list(Request $request) {
+    public function add_todo_list(Request $request) 
+    {
         //Validate Request
         $this->validate($request, [
             'task' => ['required', 'string']
@@ -577,7 +875,8 @@ class AdminController extends Controller
         ]);
     }
 
-    public function completed_todo_list($id) {
+    public function completed_todo_list($id) 
+    {
         $Finder = Crypt::decrypt($id);
 
         $task = Task::findorfail($Finder);
@@ -630,5 +929,352 @@ class AdminController extends Controller
             'type' => 'success',
             'message' => 'Task Deleted Successfully!',
         ]);
+    }
+
+    // Expenses
+    public function expenses() 
+    {
+        $expenses = Expense::latest()->get();
+
+        return view('admin.financial.expenses', [
+            'expenses' => $expenses
+        ]);
+    }
+
+    public function add_expense(Request $request) 
+    {
+        //Validate Request
+        $this->validate($request, [
+            'title' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'amount' => ['required', 'numeric'],
+            'date' => ['required', 'date'],
+        ]);
+
+        Expense::create([
+            'expense_title' => $request->title,
+            'expense_description' => $request->description,
+            'expense_amount' => $request->amount,
+            'expense_date' => $request->date
+        ]);
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Expense added successfully.'
+        ]);
+    }
+
+    public function update_expense($id, Request $request) 
+    {
+        //Validate Request
+        $this->validate($request, [
+            'title' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'amount' => ['required', 'numeric'],
+            'date' => ['required', 'date'],
+        ]);
+
+        $Finder = Crypt::decrypt($id);
+
+        $expense = Expense::findorfail($Finder);
+
+        $expense->update([
+            'expense_title' => $request->title,
+            'expense_description' => $request->description,
+            'expense_amount' => $request->amount,
+            'expense_date' => $request->date
+        ]);
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Expense updated successfully.'
+        ]);
+    }
+
+    public function delete_expense($id) 
+    {
+        $Finder = Crypt::decrypt($id);
+
+        Expense::findorfail($Finder)->delete();
+        
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Expense deleted successfully.',
+        ]);
+    }
+
+    // Incomes
+    public function incomes() 
+    {
+        $incomes = Income::latest()->get();
+
+        return view('admin.financial.incomes', [
+            'incomes' => $incomes
+        ]);
+    }
+
+    public function add_income(Request $request) 
+    {
+        //Validate Request
+        $this->validate($request, [
+            'title' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'amount' => ['required', 'numeric'],
+            'date' => ['required', 'date'],
+        ]);
+
+        Income::create([
+            'income_title' => $request->title,
+            'income_description' => $request->description,
+            'income_amount' => $request->amount,
+            'income_date' => $request->date
+        ]);
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Income added successfully.'
+        ]);
+    }
+
+    public function update_income($id, Request $request) 
+    {
+        //Validate Request
+        $this->validate($request, [
+            'title' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'amount' => ['required', 'numeric'],
+            'date' => ['required', 'date'],
+        ]);
+
+        $Finder = Crypt::decrypt($id);
+
+        $expense = Income::findorfail($Finder);
+
+        $expense->update([
+            'income_title' => $request->title,
+            'income_description' => $request->description,
+            'income_amount' => $request->amount,
+            'income_date' => $request->date
+        ]);
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Income updated successfully.'
+        ]);
+    }
+
+    public function delete_income($id) 
+    {
+        $Finder = Crypt::decrypt($id);
+
+        Income::findorfail($Finder)->delete();
+        
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Income deleted successfully.',
+        ]);
+    }
+
+    // Debtors
+    public function debtors() 
+    {
+        $debtors = Debtor::latest()->get();
+
+        return view('admin.financial.debtors', [
+            'debtors' => $debtors
+        ]);
+    }
+
+    public function add_debtor(Request $request) 
+    {
+        //Validate Request
+        $this->validate($request, [
+            'client_id' => ['required', 'string'],
+            'type' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'amount' => ['required', 'numeric'],
+        ]);
+
+        Debtor::create([
+            'client_id' => $request->client_id,
+            'debt_type' => $request->type,
+            'debt_description' => $request->description,
+            'amount_owned' => $request->amount
+        ]);
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Debtor added successfully.'
+        ]);
+    }
+
+    public function process_debtor($id, Request $request) 
+    {
+        //Validate Request
+        $this->validate($request, [
+            'amount' => ['required', 'numeric'],
+        ]);
+
+        $Finder = Crypt::decrypt($id);
+
+        $debtor = Debtor::findorfail($Finder);
+
+        if($request->amount == $debtor->amount_owned)
+        {
+            Income::create([
+                'income_title' => $debtor->debt_type,
+                'income_description' => $debtor->debt_description,
+                'income_amount' => $debtor->amount_owned,
+                'income_date' => now()
+            ]);
+
+            $debtor->delete();
+
+            return back()->with([
+                'type' => 'success',
+                'message' => 'Debt processed successfully.'
+            ]);
+        }
+
+        Income::create([
+            'income_title' => $debtor->debt_type,
+            'income_description' => $debtor->debt_description,
+            'income_amount' => $request->amount,
+            'income_date' => now()
+        ]);
+
+        $debtor->update([
+            'amount_owned' => $debtor->amount_owned - $request->amount
+        ]);
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Debtor updated successfully.'
+        ]);
+    }
+
+    public function update_debtor($id, Request $request) 
+    {
+        //Validate Request
+        $this->validate($request, [
+            'client_id' => ['required', 'string'],
+            'type' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'amount' => ['required', 'numeric'],
+        ]);
+
+        $Finder = Crypt::decrypt($id);
+
+        $debtor = Debtor::findorfail($Finder);
+
+        $debtor->update([
+            'client_id' => $request->client_id,
+            'debt_type' => $request->type,
+            'debt_description' => $request->description,
+            'amount_owned' => $request->amount
+        ]);
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Debtor updated successfully.'
+        ]);
+    }
+
+    public function delete_debtor($id) 
+    {
+        $Finder = Crypt::decrypt($id);
+
+        Debtor::findorfail($Finder)->delete();
+        
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Debtor deleted successfully.',
+        ]);
+    }
+
+    // Equiries
+    public function enquiries() 
+    {
+        $enquiries = Enquiry::latest()->get();
+
+        return view('admin.enquiry.call_bookings',[
+            'enquiries' => $enquiries
+        ]);
+    }
+
+    public function add_enquiry(Request $request) 
+    {
+        //Validate Request
+        $this->validate($request, [
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'phone_number' => ['required', 'numeric'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'location' => ['required', 'string', 'max:255'],
+            'how_do_you_know_about_us' => ['required', 'string', 'max:255'],
+            'details' => ['required', 'string'],
+        ]);
+
+        Enquiry::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'phone_number' => $request->phone_number,
+            'email' => $request->email,
+            'location' => $request->location,
+            'how_do_you_know_about_us' => $request->how_do_you_know_about_us,
+            'enquiry_details' => $request->details, 
+        ]);
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Enquiry added successfully.'
+        ]);
+
+    }
+
+    public function update_enquiry($id, Request $request) 
+    {
+        //Validate Request
+        $this->validate($request, [
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'phone_number' => ['required', 'numeric'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'location' => ['required', 'string', 'max:255'],
+            'how_do_you_know_about_us' => ['required', 'string', 'max:255'],
+            'details' => ['required', 'string'],
+        ]);
+        
+        $Finder = Crypt::decrypt($id);
+
+        $enquiry = Enquiry::findorfail($Finder);
+
+        $enquiry->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'phone_number' => $request->phone_number,
+            'email' => $request->email,
+            'location' => $request->location,
+            'how_do_you_know_about_us' => $request->how_do_you_know_about_us,
+            'enquiry_details' => $request->details, 
+        ]);
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Enquiry updated successfully.'
+        ]);
+
+    }
+
+    public function delete_enquiry($id) 
+    {
+        $Finder = Crypt::decrypt($id);
+
+        Enquiry::findorfail($Finder)->delete();
+        
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Enquiry deleted successfully.'
+        ]); 
     }
 }

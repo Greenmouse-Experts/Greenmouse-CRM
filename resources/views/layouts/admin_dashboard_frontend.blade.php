@@ -19,15 +19,61 @@
     <link href="{{URL::asset('assets/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
     <script type="text/javascript">
         window.setTimeout(function() {
-            $(".alert-timeout").fadeTo(500, 0).slideUp(1000, function(){
-                $(this).remove(); 
+            $(".alert-timeout").fadeTo(500, 0).slideUp(1000, function() {
+                $(this).remove();
             });
         }, 3000);
+
+        $(document).ready(function() {
+            $('#localclock').jsclock();
+        });
     </script>
-    
+
+    <style>
+        .calculator {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            position: relative;
+            /* top: 50%; */
+            top: 16rem;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /* width: 400px; */
+        }
+        .calculator-screen {
+            width: 100%;
+            height: 80px;
+            border: none;
+            background-color: #252525;
+            color: #fff;
+            text-align: right;
+            padding-right: 20px;
+            padding-left: 10px;
+            font-size: 4rem;
+        }
+        .calculator-keys button {
+            height: 60px;
+            font-size: 2rem!important;
+        }
+        .percent-sign {
+            height: 98%;
+            grid-area: 2 / 4 / 6 / 5 !important;
+        }
+        .equal-sign {
+            height: 98%;
+            grid-area: 3 / 4 / 6 / 5;
+        }
+        .calculator-keys {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 20px;
+            padding: 20px;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -36,8 +82,8 @@
         @include('layouts.alert')
     </div>
     <!-- Alerts End -->
-     <!-- Page Wrapper -->
-     <div id="wrapper">
+    <!-- Page Wrapper -->
+    <div id="wrapper">
         <!-- Sidebar -->
         @includeIf('layouts.admin_sidebar')
         <!-- End Sidebar -->
@@ -46,7 +92,7 @@
         @yield('page-content')
         <!-- End Page-Content -->
 
-     </div>
+    </div>
     <!-- End of Page Wrapper -->
 
     <!-- Scroll to Top Button-->
@@ -58,9 +104,14 @@
     <script>
         var el = document.getElementById("dl");
         el.addEventListener("click", function() {
-                var table = document.getElementById("dataTable");
-                var wb = XLSX.utils.table_to_book(table, {sheet:"output"});
-                var file = XLSX.writeFile(wb, "output.csv",{bookType: "csv", type: "base64"});
+            var table = document.getElementById("dataTable");
+            var wb = XLSX.utils.table_to_book(table, {
+                sheet: "output"
+            });
+            var file = XLSX.writeFile(wb, "output.csv", {
+                bookType: "csv",
+                type: "base64"
+            });
 
         });
     </script>
@@ -94,6 +145,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+    <script src="{{URL::asset('assets/js/jsclock-0.8.min.js') }}"></script>
+    <script src="{{URL::asset('assets/js/calculator.js')}}"></script>
 
     <script>
         $(document).ready(function() {
@@ -105,12 +158,12 @@
             });
         });
 
-        function loadPreview(input){
+        function loadPreview(input) {
             var data = $(input)[0].files; //this file data
-            $.each(data, function(index, file){
-                if(/(\.|\/)(gif|jpe?g|png)$/i.test(file.type)){
+            $.each(data, function(index, file) {
+                if (/(\.|\/)(gif|jpe?g|png)$/i.test(file.type)) {
                     var fRead = new FileReader();
-                    fRead.onload = (function(file){
+                    fRead.onload = (function(file) {
                         return function(e) {
                             var img = $('<img/>').addClass('thumb').attr('src', e.target.result); //create image thumb element
                             $('#thumb-output').append(img);
