@@ -132,92 +132,59 @@
 </style>
 
 <body class="bg-gradient-success">
-    <div class="container">
-        <!-- Outer Row -->
-        <!-- <div class="row justify-content-center">
-            <div class="col-xl-10 col-lg-12 col-md-9">
-                <div class="card o-hidden border-0 shadow-lg my-5">
-                    <div class="card-body p-0">
-                        <div class="row">
-                            <div class="col-lg-6 offset-lg-3">
-                                <div class="py-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4"> <img src="{{URL::asset('assets/img/greenmouse-logo.png')}}" alt="logo" width="300px"></h1>
-                                    </div>
-                                    <form class="user" method="POST" action="{{ route('login') }}">
-                                        @csrf
-                                        <div class="form-group">
-                                            <label>Emaill</label>
-                                            <input type="email" name="email" class="form-control form-control-user @error('email') is-invalid @enderror" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address...">
-                                            @error('email')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Password</label>
-                                            <label style="float: right;">
-                                                @if (Route::has('password.request'))
-                                                <a href="{{ route('password.request') }}" style="text-decoration: none; color: #000; font-size: 13px !important; font-weight: 400;">{{ __('Forgot Your Password?') }}</a>
-                                                @endif
-                                            </label>
-                                            <input type="password" name="password" class="form-control form-control-user @error('password') is-invalid @enderror" id="exampleInputPassword" placeholder="Password">
-                                            @error('password')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="submit" value="Login" class="btn btn-success btn-user btn-block">
-                                        </div>
-                                        <p>Don't have an account? <a href="/register">Register</a></p>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-    </div>
-
     <section class="logIn">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3"></div>
                 <div class="col-lg-6">
                     <div class="sign">
-                        <form class="sign-div">
+                        <form class="sign-div" method="POST" action="{{ route('login') }}">
+                            @csrf
                             <a href="index">
                                 <img src="{{URL::asset('assets/img/greenmouse-logo.png')}}">
                             </a>
                             <h4 class="mb-2 mt-4 text-center">Log Into Your Account</h4>
-                            <!--Username-->
+                            <!--Email-->
                             <div class="col-lg-12">
                                 <label>Email</label>
                                 <div class="row">
                                     <div class="col-md-12 mb-3">
                                         <i class="bi bi-person-circle"></i>
-                                        <input type="email" placeholder="Enter Your Email Address" name="username" class="input" required>
+                                        <input type="email" placeholder="Enter Your Email Address" name="email" class="input @error('email') is-invalid @enderror" required>
+                                        @error('email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
-                            <!--Username Ends-->
+                            <!--Email Ends-->
                             <!--Password-->
                             <div class="col-lg-12">
                                 <label>Password</label>
                                 <div class="row">
                                     <div class="col-md-12 mb-3">
                                         <i class="bi bi-file-earmark-lock"></i>
-                                        <input type="password" placeholder="Enter your Password" name="email" class="input" required>
+                                        <input type="password" placeholder="Enter your Password" name="password" class="input @error('password') is-invalid @enderror" required>
+                                        @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label style="float: right;">
+                                            @if (Route::has('password.request'))
+                                            <a href="{{ route('password.request') }}" style="text-decoration: none; color: #000; font-size: 13px !important; font-weight: 400;">{{ __('Forgot Your Password?') }}</a>
+                                            @endif
+                                        </label>
                                     </div>
                                 </div>
                             </div>
                             <!--Password-->
                             <div class="col-md-12 mb-3">
-                                <button type="submit" value="Login">LogIn</button>
+                                <button type="submit">LogIn</button>
                             </div>
                             <p class="fine">Don't have an account ? <a href="/register">Register</a> </p>
                         </form>

@@ -45,7 +45,8 @@ class AdminController extends Controller
         ]);
     }
 
-    public function agents() {
+    public function agents() 
+    {
         $agents = User::latest()->where('user_type', 'Agent')->get();
 
         return view('admin.agents', [
@@ -53,7 +54,8 @@ class AdminController extends Controller
         ]);
     }
 
-    public function staffs() {
+    public function staffs() 
+    {
         $staffs = User::latest()->where('user_type', 'Staff')->get();
 
         return view('admin.staffs', [
@@ -61,7 +63,8 @@ class AdminController extends Controller
         ]);
     }
 
-    public function add_user(Request $request) {
+    public function add_user(Request $request) 
+    {
         //Validate Request
         $this->validate($request, [
             'name' => ['required', 'string', 'max:255'],
@@ -136,7 +139,8 @@ class AdminController extends Controller
         
     }
 
-    function referrer_id($input, $strength = 5) {
+    function referrer_id($input, $strength = 5) 
+    {
         $input = '0123456789';
         $input_length = strlen($input);
         $random_string = '';
@@ -148,7 +152,8 @@ class AdminController extends Controller
         return $random_string;
     }
 
-    public function edit_user($id, Request $request) {
+    public function edit_user($id, Request $request) 
+    {
         $this->validate($request, [
             'name' => ['string', 'max:255'],
             // 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -170,7 +175,8 @@ class AdminController extends Controller
         ]);
     }
 
-    public function delete_user($id) {
+    public function delete_user($id) 
+    {
         $userFinder = Crypt::decrypt($id);
 
         User::findorfail($userFinder)->delete();
@@ -181,7 +187,8 @@ class AdminController extends Controller
         ]); 
     }
 
-    public function downlines_user($id) {
+    public function downlines_user($id) 
+    {
         $userFinder = Crypt::decrypt($id);
 
         $user = User::findorfail($userFinder);
@@ -193,11 +200,13 @@ class AdminController extends Controller
         ]);
     }
 
-    public function account() {
+    public function account() 
+    {
         return view('admin.account');
     }
 
-    public function change_password($id, Request $request) {
+    public function change_password($id, Request $request) 
+    {
         $this->validate($request, [
             'new_password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);

@@ -190,35 +190,46 @@
                 <div class="col-lg-3"></div>
                 <div class="col-lg-6">
                     <div class="sign">
-                        <form class="sign-div">
+                        <form class="sign-div" method="POST" action="{{ route('login') }}">
+                            @csrf
                             <a href="index">
                                 <img src="{{URL::asset('assets/img/greenmouse-logo.png')}}">
                             </a>
                             <h4 class="mb-2 mt-4 text-center">Admin Login</h4>
-                            <!--Username-->
+                            <!--Email-->
                             <div class="col-lg-12">
                                 <label>Email</label>
                                 <div class="row">
                                     <div class="col-md-12 mb-3">
                                         <i class="bi bi-person-circle"></i>
-                                        <input type="email" placeholder="Enter Your Email Address" name="username" class="input" required>
+                                        <input type="email" placeholder="Enter Your Email Address" name="email" class="input @error('email') is-invalid @enderror" required>
+                                        @error('email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
-                            <!--Username Ends-->
+                            <!--Email Ends-->
                             <!--Password-->
                             <div class="col-lg-12">
                                 <label>Password</label>
                                 <div class="row">
                                     <div class="col-md-12 mb-3">
                                         <i class="bi bi-file-earmark-lock"></i>
-                                        <input type="password" placeholder="Enter your Password" name="email" class="input" required>
+                                        <input type="password" placeholder="Enter your Password" name="password" class="input @error('password') is-invalid @enderror" required>
+                                        @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
                             <!--Password-->
                             <div class="col-md-12 mb-3">
-                                <button type="submit" value="Login">Sign In</button>
+                                <button type="submit">Sign In</button>
                             </div>
                         </form>
                     </div>
