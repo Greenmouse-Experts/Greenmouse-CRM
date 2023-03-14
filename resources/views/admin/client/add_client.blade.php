@@ -30,7 +30,7 @@
                                             <div class="row">
                                                 <div class="col-12">
                                                     <select class="form-control" name="title">
-                                                        <option>--Select Title--</option>
+                                                        <option value="">--Select Title--</option>
                                                         <option value="Mr.">Mr.</option>
                                                         <option value="Mrs.">Mrs.</option>
                                                         <option value="Miss">Miss</option>
@@ -108,7 +108,7 @@
                                                 <div class="col-lg-6">
                                                     <label for="">Business Section</label>
                                                     <select class="form-control" name="section">
-                                                        <option>--Select Section--</option>
+                                                        <option value="">--Select Section--</option>
                                                         <option>Transport</option>
                                                         <option>Logistics</option>
                                                         <option>Finance</option>
