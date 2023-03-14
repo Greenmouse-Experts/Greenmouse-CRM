@@ -219,7 +219,7 @@
                                             <div class="form-group">
                                                 <label for="my-select">Client</label>
                                                 <select class="form-control" name="client_id">
-                                                    <option>--Select Client--</option>
+                                                    <option value="">--Select Client--</option>
                                                     @foreach(\App\Models\Client::latest()->get() as $client)
                                                     <option value="{{$client->id}}">{{$client->first_name}} {{$client->last_name}}</option>
                                                     @endforeach

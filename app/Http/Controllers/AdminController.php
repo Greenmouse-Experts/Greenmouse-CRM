@@ -1096,13 +1096,17 @@ class AdminController extends Controller
 
     public function add_debtor(Request $request) 
     {
+        $messages = [
+            'client_id.required' => 'Please select a client detail.',
+        ];
+
         //Validate Request
         $this->validate($request, [
             'client_id' => ['required', 'string'],
             'type' => ['required', 'string'],
             'description' => ['required', 'string'],
             'amount' => ['required', 'numeric'],
-        ]);
+        ], $messages);
 
         Debtor::create([
             'client_id' => $request->client_id,

@@ -117,7 +117,7 @@
                                             <div class="form-group">
                                                 <label for="my-select">Category</label>
                                                 <select class="form-control" name="category_id">
-                                                    <option>--Select Category--</option>
+                                                    <option value="">--Select Category--</option>
                                                     @foreach(\App\Models\Category::latest()->get() as $category)
                                                     <option value="{{$category->id}}">{{$category->name}}</option>
                                                     @endforeach
@@ -128,7 +128,7 @@
                                             <div class="form-group">
                                                 <label for="my-select">Supplier</label>
                                                 <select class="form-control" name="supplier_id">
-                                                    <option>--Select Supplier--</option>
+                                                    <option value="">--Select Supplier--</option>
                                                     @foreach(\App\Models\Supplier::latest()->get() as $supplier)
                                                     <option value="{{$supplier->id}}">{{$supplier->name}}</option>
                                                     @endforeach
