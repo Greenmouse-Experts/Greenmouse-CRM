@@ -31,7 +31,7 @@
                                                 <div class="col-12">
                                                     <select class="form-control" name="title">
                                                         <option value="{{$client->title}}">{{$client->title}}</option>
-                                                        <option>--Select Title--</option>
+                                                        <option value="">--Select Title--</option>
                                                         <option value="Mr.">Mr.</option>
                                                         <option value="Mrs.">Mrs.</option>
                                                         <option value="Miss">Miss</option>
@@ -51,10 +51,10 @@
                                             <label for="">Full Name</label>
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <input type="text" class="form-control" name="first_name" value="{{$client->first_name}}" placeholder="First Name" aria-describedby="helpId" required>
+                                                    <input type="text" class="form-control" name="first_name" value="{{$client->first_name}}" placeholder="First Name" aria-describedby="helpId">
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <input type="text" class="form-control" name="last_name" value="{{$client->last_name}}" placeholder="Last Name" aria-describedby="helpId" required>
+                                                    <input type="text" class="form-control" name="last_name" value="{{$client->last_name}}" placeholder="Last Name" aria-describedby="helpId">
                                                 </div>
                                             </div>                                                    
                                         </div>
@@ -87,11 +87,11 @@
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <label for="">Phone Number</label>
-                                                    <input type="tel" class="form-control" name="phone_number" placeholder="Phone Number" value="{{$client->phone}}" aria-describedby="helpId" required>
+                                                    <input type="tel" class="form-control" name="phone_number" placeholder="Phone Number" value="{{$client->phone}}" aria-describedby="helpId">
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <label for="">E-mail Address</label>
-                                                    <input type="email" class="form-control" name="email" placeholder="E-mail Address" value="{{$client->email}}" aria-describedby="helpId" required>
+                                                    <input type="email" class="form-control" name="email" placeholder="E-mail Address" value="{{$client->email}}" aria-describedby="helpId">
                                                 </div>
                                             </div>                                                    
                                         </div>
@@ -104,13 +104,13 @@
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <label for="">Occupation</label>
-                                                    <input type="text" class="form-control" name="occupation" value="{{$client->occupation}}" placeholder="Occupation" aria-describedby="helpId" required>    
+                                                    <input type="text" class="form-control" name="occupation" value="{{$client->occupation}}" placeholder="Occupation" aria-describedby="helpId">    
                                                 </div>                                           
                                                 <div class="col-lg-6">
                                                     <label for="">Business Section</label>
                                                     <select class="form-control" name="section">
                                                         <option value="{{$client->section}}">{{$client->section}}</option>
-                                                        <option>--Select Section--</option>
+                                                        <option value="">--Select Section--</option>
                                                         <option value="Transport">Transport</option>
                                                         <option value="Logistics">Logistics</option>
                                                         <option value="Finance">Finance</option>

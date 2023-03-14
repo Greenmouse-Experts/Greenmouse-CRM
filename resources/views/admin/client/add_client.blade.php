@@ -50,10 +50,10 @@
                                             <label for="">Full Name</label>
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <input type="text" class="form-control" name="first_name" placeholder="First Name"aria-describedby="helpId" required>
+                                                    <input type="text" class="form-control" name="first_name" placeholder="First Name"aria-describedby="helpId" >
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <input type="text" class="form-control" name="last_name" placeholder="Last Name" aria-describedby="helpId" required>
+                                                    <input type="text" class="form-control" name="last_name" placeholder="Last Name" aria-describedby="helpId" >
                                                 </div>
                                             </div>                                                    
                                         </div>
@@ -86,11 +86,11 @@
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <label for="">Phone Number</label>
-                                                    <input type="tel" class="form-control" name="phone_number" placeholder="Phone Number" aria-describedby="helpId" required>
+                                                    <input type="tel" class="form-control" name="phone_number" placeholder="Phone Number" aria-describedby="helpId" >
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <label for="">E-mail Address</label>
-                                                    <input type="email" class="form-control" name="email" placeholder="E-mail Address" aria-describedby="helpId" required>
+                                                    <input type="email" class="form-control" name="email" placeholder="E-mail Address" aria-describedby="helpId" >
                                                 </div>
                                             </div>                                                    
                                         </div>
@@ -103,7 +103,7 @@
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <label for="">Occupation</label>
-                                                    <input type="text" class="form-control" name="occupation" placeholder="Occupation" aria-describedby="helpId" required>    
+                                                    <input type="text" class="form-control" name="occupation" placeholder="Occupation" aria-describedby="helpId" >    
                                                 </div>                                           
                                                 <div class="col-lg-6">
                                                     <label for="">Business Section</label>
