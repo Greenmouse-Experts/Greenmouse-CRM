@@ -467,14 +467,14 @@ class AdminController extends Controller
     public function update_client_management($id, Request $request) 
     {
         //Validate Request
-        $this->validate($request, [
-            'title' => ['required', 'string', 'max:255'],
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'address_1' => ['required', 'string'],
-            'phone_number' => ['required', 'numeric'],
-            'email' => ['required', 'string'],
-        ]);
+        // $this->validate($request, [
+        //     'title' => ['required', 'string', 'max:255'],
+        //     'first_name' => ['required', 'string', 'max:255'],
+        //     'last_name' => ['required', 'string', 'max:255'],
+        //     'address_1' => ['required', 'string'],
+        //     'phone_number' => ['required', 'numeric'],
+        //     'email' => ['required', 'string'],
+        // ]);
 
         $Finder = Crypt::decrypt($id);
 
