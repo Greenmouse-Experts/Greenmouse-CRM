@@ -1340,7 +1340,6 @@ class AdminController extends Controller
         $this->validate($request, [
             'client_id' => ['required', 'string'],
             'type' => ['required', 'string'],
-            'description' => ['required', 'string'],
             'amount' => ['required', 'numeric'],
         ]);
 
