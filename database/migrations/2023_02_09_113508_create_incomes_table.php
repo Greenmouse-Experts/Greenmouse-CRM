@@ -15,9 +15,9 @@ class CreateIncomesTable extends Migration
     {
         Schema::create('incomes', function (Blueprint $table) {
             $table->id();
-            $table->string('income_title');
-            $table->string('income_description');
-            $table->decimal('income_amount',15,2);
+            $table->string('income_title')->nullable();
+            $table->string('income_description')->nullable();
+            $table->decimal('income_amount',15,2)->nullable();
             $table->date('income_date');
             $table->timestamps();
             $table->softDeletes();

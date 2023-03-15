@@ -15,9 +15,9 @@ class CreateDebtorsTable extends Migration
     {
         Schema::create('debtors', function (Blueprint $table) {
             $table->id();
-            $table->string('client_id');
-            $table->string('debt_type');
-            $table->string('debt_description');
+            $table->string('client_id')->nullable();
+            $table->string('debt_type')->nullable();
+            $table->string('debt_description')->nullable();
             $table->decimal('amount_owned',15,2);
             $table->timestamps();
             $table->softDeletes();
