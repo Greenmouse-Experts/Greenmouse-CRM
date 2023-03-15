@@ -51,6 +51,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 
     // Salary Structure
     Route::get('/admin/salary/structure', [App\Http\Controllers\AdminController::class, 'salary_structure'])->name('salary.structure');
+    Route::post('/admin/employee/update/{id}', [App\Http\Controllers\AdminController::class, 'update_salary'])->name('update.structure');
 
     Route::get('/admin/agents', [App\Http\Controllers\AdminController::class, 'agents'])->name('agents');
     Route::post('/admin/user/save', [App\Http\Controllers\AdminController::class, 'add_user'])->name('add.user');

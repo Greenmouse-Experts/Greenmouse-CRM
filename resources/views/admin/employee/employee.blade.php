@@ -177,7 +177,7 @@
                                                                             </div>
                                                                             <div class="form-group text-left">
                                                                                 <label for="">Photo</label>
-                                                                                <input type="file" name="photo" class="form-control-file">
+                                                                                <input type="file" name="photo" class="form-control">
                                                                             </div>
                                                                         </fieldset>
                                                                     </div>

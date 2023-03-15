@@ -111,6 +111,8 @@ class AdminController extends Controller
                 'message' => 'Role has been attached to the Employee list. You can only Edit',
             ]);
         }
+
+        $role->delete();
         
         return back()->with([
             'type' => 'success',
@@ -322,6 +324,22 @@ class AdminController extends Controller
         ]);
     }
 
+    public function update_salary($id, Request $request) 
+    {
+        $Finder = Crypt::decrypt($id);
+
+        $salary = EmployeeSalary::findorfail($Finder);
+
+        $salary->update([
+            'salary' => $request->salary
+        ]);
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Salary Updated Successfully'
+        ]);
+    }
+
     public function account() 
     {
         return view('admin.account');
@@ -495,7 +513,6 @@ class AdminController extends Controller
             ]);
         }
     }
-
 
     public function delete_property($id) 
     {
@@ -684,7 +701,19 @@ class AdminController extends Controller
     {
         $Finder = Crypt::decrypt($id);
 
-        Category::findorfail($Finder)->delete();
+        $category = Category::findorfail($Finder);
+
+        $products = Product::where('category_id', $category->id)->get();
+
+        if($products)
+        {
+            return back()->with([
+                'type' => 'danger',
+                'message' => 'Category Details has been attached to the Product list. You can only Edit',
+            ]);
+        }
+        
+        $category->delete();
         
         return back()->with([
             'type' => 'success',
@@ -707,10 +736,6 @@ class AdminController extends Controller
         //Validate Request
         $this->validate($request, [
             'name' => ['required', 'string'],
-            'email' => ['required', 'string', 'email'],
-            'phone' => ['required', 'numeric'],
-            'address' => ['required', 'string'],
-            'shopName' => ['required', 'string'],
         ]);
 
         if (request()->hasFile('photo')) 
@@ -810,6 +835,16 @@ class AdminController extends Controller
         $Finder = Crypt::decrypt($id);
 
         $supplier = Supplier::findorfail($Finder);
+        
+        $products = Product::where('supplier_id', $supplier->id)->get();
+
+        if($products)
+        {
+            return back()->with([
+                'type' => 'danger',
+                'message' => 'Supplier Details has been attached to the Product list. You can only Edit',
+            ]);
+        }
         
         if($supplier->photo) {
             Storage::delete(str_replace("storage", "public", $supplier->photo));
@@ -1238,7 +1273,6 @@ class AdminController extends Controller
         $this->validate($request, [
             'client_id' => ['required', 'string'],
             'type' => ['required', 'string'],
-            'description' => ['required', 'string'],
             'amount' => ['required', 'numeric'],
         ], $messages);
 

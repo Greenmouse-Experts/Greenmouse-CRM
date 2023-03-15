@@ -22,7 +22,7 @@ class CreateProductsTable extends Migration
             $table->string('product_code', 50)->unique();
             $table->integer('quantity')->default(0)->nullable();
             $table->unsignedDecimal('price', 10, 1)->nullable();
-            $table->unsignedDecimal('weight')->default(0)->nullable();
+            $table->integer('employee_id')->nullable();
             $table->string('product_image', 100)->nullable();
             $table->timestamps();
             $table->softDeletes();
