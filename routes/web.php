@@ -36,7 +36,22 @@ Route::prefix('dashboard')->group(function () {
 Route::get('/admin/login', [App\Http\Controllers\HomePageController::class, 'admin']);
 Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/admin/dashboard', [App\Http\Controllers\AdminController::class, 'index'])->name('dashboard');
-    Route::get('/admin/staffs', [App\Http\Controllers\AdminController::class, 'staffs'])->name('staffs');
+
+    // Role
+    Route::get('/admin/roles', [App\Http\Controllers\AdminController::class, 'roles'])->name('roles');
+    Route::post('/admin/role/add', [App\Http\Controllers\AdminController::class, 'add_role'])->name('add.role');
+    Route::post('/admin/role/update/{id}', [App\Http\Controllers\AdminController::class, 'update_role'])->name('update.role');
+    Route::post('/admin/role/delete/{id}', [App\Http\Controllers\AdminController::class, 'delete_role'])->name('delete.role');
+
+    // Employees
+    Route::get('/admin/employees', [App\Http\Controllers\AdminController::class, 'employees'])->name('employees');
+    Route::post('/admin/employee/add', [App\Http\Controllers\AdminController::class, 'add_employee'])->name('add.employee');
+    Route::post('/admin/employee/update/{id}', [App\Http\Controllers\AdminController::class, 'update_employee'])->name('update.employee');
+    Route::post('/admin/employee/delete/{id}', [App\Http\Controllers\AdminController::class, 'delete_employee'])->name('delete.employee');
+
+    // Salary Structure
+    Route::get('/admin/salary/structure', [App\Http\Controllers\AdminController::class, 'salary_structure'])->name('salary.structure');
+
     Route::get('/admin/agents', [App\Http\Controllers\AdminController::class, 'agents'])->name('agents');
     Route::post('/admin/user/save', [App\Http\Controllers\AdminController::class, 'add_user'])->name('add.user');
     Route::post('/admin/user/edit/{id}', [App\Http\Controllers\AdminController::class, 'edit_user'])->name('edit.user');

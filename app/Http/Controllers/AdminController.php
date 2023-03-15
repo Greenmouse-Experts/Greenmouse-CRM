@@ -8,11 +8,14 @@ use App\Models\Category;
 use App\Models\Client;
 use App\Models\CustomerManagement;
 use App\Models\Debtor;
+use App\Models\Employee;
+use App\Models\EmployeeSalary;
 use App\Models\Enquiry;
 use App\Models\Expense;
 use App\Models\Income;
 use App\Models\Product;
 use App\Models\Property;
+use App\Models\Role;
 use App\Models\Supplier;
 use App\Models\Task;
 use Illuminate\Support\Facades\Hash;
@@ -45,158 +48,277 @@ class AdminController extends Controller
         ]);
     }
 
-    public function agents() 
+    // Roles
+    public function roles() 
     {
-        $agents = User::latest()->where('user_type', 'Agent')->get();
+        $roles = Role::latest()->get();
 
-        return view('admin.agents', [
-            'agents' => $agents
+        return view('admin.employee.role', [
+            'roles' => $roles
         ]);
     }
 
-    public function staffs() 
-    {
-        $staffs = User::latest()->where('user_type', 'Staff')->get();
-
-        return view('admin.staffs', [
-            'staffs' => $staffs
-        ]);
-    }
-
-    public function add_user(Request $request) 
+    public function add_role(Request $request) 
     {
         //Validate Request
         $this->validate($request, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'phone_number' => ['required', 'numeric'],
+            'name' => ['required', 'string']
         ]);
 
-        if ($request->user_type == 'Agent') {
-            $user = User::create([
-                'referrer_code' => 'RHA-'.$this->referrer_id(5),
-                'name' => $request->name,
-                'email' => $request->email,
-                'phone_number' => $request->phone_number,
-                'password' => Hash::make($request->password),
-                'user_type' => $request->user_type, 
-            ]);
+        Role::create([
+            'name' => $request->name
+        ]);
 
-            /** Store information to include in mail in $data as an array */
-            $data = array(
-                'referral_link' => $user->referral_link,
-                'referrer_code' => $user->referrer_code,
-                'name' => request()->name,
-                'email' => request()->email,
-                'phone_number' => request()->phone_number,
-                'password' => request()->password,
-                'user' => request()->email,
-            );
-            /** Send message to the admin */
-            Mail::send('emails.welcome', $data, function ($m) use ($data) {
-                $m->to($data['user'])->subject('Welcome To Reftop Homes');
-            });
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Role added successfully.'
+        ]);
+    }
 
-            return back()->with([
-                'type' => 'success',
-                'message' => 'Agent Registered Successfully'
-            ]);
-        } elseif($request->user_type == 'Staff') {
-            $user = User::create([
-                'referrer_code' => 'RHS-'.$this->referrer_id(5),
-                'name' => $request->name,
-                'email' => $request->email,
-                'phone_number' => $request->phone_number,
-                'password' => Hash::make($request->password),
-                'user_type' => $request->user_type, 
-            ]);
+    public function update_role($id, Request $request) 
+    {
+        //Validate Request
+        $this->validate($request, [
+            'name' => ['required', 'string']
+        ]);
 
-            /** Store information to include in mail in $data as an array */
-            $data = array(
-                'referral_link' => $user->referral_link,
-                'referrer_code' => $user->referrer_code,
-                'name' => request()->name,
-                'email' => request()->email,
-                'phone_number' => request()->phone_number,
-                'password' => request()->password,
-                'user' => request()->email,
-            );
-            /** Send message to the admin */
-            Mail::send('emails.welcome', $data, function ($m) use ($data) {
-                $m->to($data['user'])->subject('Welcome To Reftop Homes');
-            });
+        $Finder = Crypt::decrypt($id);
 
-            return back()->with([
-                'type' => 'success',
-                'message' => 'Staff Registered Successfully'
-            ]);
-        } else {
+        $category = Role::findorfail($Finder);
+
+        $category->update([
+            'name' => $request->name
+        ]);
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Role updated successfully.'
+        ]);
+    }
+
+    public function delete_role($id) 
+    {
+        $Finder = Crypt::decrypt($id);
+
+        $role = Role::findorfail($Finder);
+
+        $employee = Employee::where('role', $role->id)->get();
+
+        if($employee)
+        {
             return back()->with([
                 'type' => 'danger',
-                'message' => 'Unauthorized User Registration'
+                'message' => 'Role has been attached to the Employee list. You can only Edit',
             ]);
         }
         
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Role deleted successfully.',
+        ]);
     }
 
-    function referrer_id($input, $strength = 5) 
+    // Employee
+    public function employees() 
     {
-        $input = '0123456789';
-        $input_length = strlen($input);
-        $random_string = '';
-        for($i = 0; $i < $strength; $i++) {
-            $random_character = $input[mt_rand(0, $input_length - 1)];
-            $random_string .= $random_character;
-        }
-    
-        return $random_string;
+        $employees = Employee::latest()->get();
+
+        return view('admin.employee.employee', [
+            'employees' => $employees
+        ]);
     }
 
-    public function edit_user($id, Request $request) 
+    public function add_employee(Request $request) 
     {
+        $messages = [
+            'role.required' => 'Please select a role.',
+        ];
+
+        //Validate Request
         $this->validate($request, [
-            'name' => ['string', 'max:255'],
-            // 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone_number' => ['required', 'numeric'],
+            'role' => ['required']
+        ], $messages);
+
+        if (request()->hasFile('photo')) 
+        {
+            $this->validate($request, [
+                'photo' => 'required|mimes:jpeg,png,jpg',
+            ]);
+            $filename = request()->photo->getClientOriginalName();
+            request()->photo->storeAs('employee_photos', $filename, 'public');
+
+            $employee = Employee::create([
+                'first_name' => $request->first_name,
+                'middle_name' => $request->middle_name,
+                'last_name' => $request->last_name,
+                'email' => $request->email,
+                'phone_number' => $request->phone_number,
+                'dob' => $request->dob,
+                'sex' => $request->sex,
+                'address' => $request->address,
+                'role' => $request->role,
+                'join_date' => $request->join_date,
+                'photo' => '/storage/employee_photos/'.$filename
+            ]);
+
+            EmployeeSalary::create([
+                'employee_id' => $employee->id,
+                'salary' => $request->salary
+            ]);
+
+            return back()->with([
+                'type' => 'success',
+                'message' => 'Employee Registered Successfully'
+            ]);
+        }
+        
+        $employee = Employee::create([
+            'first_name' => $request->first_name,
+            'middle_name' => $request->middle_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'dob' => $request->dob,
+            'sex' => $request->sex,
+            'address' => $request->address,
+            'role' => $request->role,
+            'join_date' => $request->join_date
         ]);
 
-        $userFinder = Crypt::decrypt($id);
-
-        $user = User::findorfail($userFinder);
-
-        $user->name = $request->name;
-        // $user->email = $request->email;
-        $user->phone_number = $request->phone_number;
-        $user->save();
+        EmployeeSalary::create([
+            'employee_id' => $employee->id,
+            'salary' => $request->salary
+        ]);
 
         return back()->with([
             'type' => 'success',
-            'message' => 'User Updated Successfully'
+            'message' => 'Employee Registered Successfully'
         ]);
     }
 
-    public function delete_user($id) 
+    public function update_employee($id, Request $request) 
     {
-        $userFinder = Crypt::decrypt($id);
+        $messages = [
+            'role.required' => 'Please select a role.',
+        ];
 
-        User::findorfail($userFinder)->delete();
+        //Validate Request
+        $this->validate($request, [
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'phone_number' => ['required', 'numeric'],
+            'role' => ['required']
+        ], $messages);
+
+        $Finder = Crypt::decrypt($id);
+
+        $employee = Employee::findorfail($Finder);
+
+        if (request()->hasFile('photo')) 
+        {
+            $this->validate($request, [
+                'photo' => 'required|mimes:jpeg,png,jpg',
+            ]);
+            $filename = request()->photo->getClientOriginalName();
+            if($employee->photo) {
+                Storage::delete(str_replace("storage", "public", $employee->photo));
+            }
+            request()->photo->storeAs('employee_photos', $filename, 'public');
+
+            $employee->update([
+                'first_name' => $request->first_name,
+                'middle_name' => $request->middle_name,
+                'last_name' => $request->last_name,
+                'email' => $request->email,
+                'phone_number' => $request->phone_number,
+                'dob' => $request->dob,
+                'sex' => $request->sex,
+                'address' => $request->address,
+                'role' => $request->role,
+                'join_date' => $request->join_date,
+                'photo' => '/storage/employee_photos/'.$filename
+            ]);
+
+            if($request->salary != null)
+            {
+                $salary = EmployeeSalary::where('employee_id', $employee->id)->first();
+
+                $salary->update([
+                    'salary' => $request->salary
+                ]);
+            }
+
+            return back()->with([
+                'type' => 'success',
+                'message' => 'Employee Updated Successfully'
+            ]);
+        }
+        
+        $employee->update([
+            'first_name' => $request->first_name,
+            'middle_name' => $request->middle_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'dob' => $request->dob,
+            'sex' => $request->sex,
+            'address' => $request->address,
+            'role' => $request->role,
+            'join_date' => $request->join_date
+        ]);
+
+        if($request->salary != null)
+        {
+            $salary = EmployeeSalary::where('employee_id', $employee->id)->first();
+
+            $salary->update([
+                'salary' => $request->salary
+            ]);
+        }
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Employee Updated Successfully'
+        ]);
+    }
+
+    public function delete_employee($id) 
+    {
+        $Finder = Crypt::decrypt($id);
+
+        $employee = Employee::findorfail($Finder);
+
+        $salary = EmployeeSalary::where('employee_id', $employee->id)->first();
+
+        if($employee->photo) {
+            Storage::delete(str_replace("storage", "public", $employee->photo));
+        }
+
+        if($salary)
+        {
+            $salary->delete();
+        }
+
+        $employee->delete();
         
         return back()->with([
             'type' => 'success',
-            'message' => 'Account Deleted Successfully!'
+            'message' => 'Employee Deleted Successfully!'
         ]); 
     }
 
-    public function downlines_user($id) 
+    // Salary Structure
+    public function salary_structure() 
     {
-        $userFinder = Crypt::decrypt($id);
+        $salaries = EmployeeSalary::latest()->get();
 
-        $user = User::findorfail($userFinder);
-
-        $downlines = User::latest()->where('referral_code', $user->referrer_code)->get();
-
-        return view('admin.downlines',[
-            'downlines' => $downlines
+        return view('admin.employee.salary_structure', [
+            'salaries' => $salaries
         ]);
     }
 
@@ -445,8 +567,20 @@ class AdminController extends Controller
     {
         $Finder = Crypt::decrypt($id);
 
-        Client::findorfail($Finder)->delete();
+        $client = Client::findorfail($Finder);
+
+        $debt = Debtor::where('client_id', $client->id)->get();
+
+        if($debt)
+        {
+            return back()->with([
+                'type' => 'danger',
+                'message' => 'Client Details has been attached to the debtor list. You can only Edit',
+            ]);
+        }
         
+        $client->delete();
+
         return back()->with([
             'type' => 'success',
             'message' => 'Client Details Deleted Successfully!',

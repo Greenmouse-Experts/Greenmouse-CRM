@@ -25,12 +25,13 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUser" aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-user"></i>
-            <span>Staff Management</span>
+            <span>Employee Management</span>
         </a>
         <div id="collapseUser" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a href="{{route('staffs')}}" class="collapse-item">Staffs</a>
-                <a href="" class="collapse-item">Salary Structure</a>
+                <a href="{{route('roles')}}" class="collapse-item">Role</a>
+                <a href="{{route('employees')}}" class="collapse-item">Employee</a>
+                <a href="{{route('salary.structure')}}" class="collapse-item">Salary Structure</a>
                 <a href="" class="collapse-item">Leaves/Benefits</a>
                 <a href="" class="collapse-item">Attendance</a>
                 <a href="" class="collapse-item">Appraisal/Report</a>
