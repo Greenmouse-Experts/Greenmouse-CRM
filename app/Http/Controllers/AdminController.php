@@ -297,6 +297,16 @@ class AdminController extends Controller
 
         $salary = EmployeeSalary::where('employee_id', $employee->id)->first();
 
+        $product = Product::where('employee_id', $employee->id)->get();
+
+        if($product)
+        {
+            return back()->with([
+                'type' => 'danger',
+                'message' => 'Employee has been attached to the Product list. You can only Edit',
+            ]);
+        }
+
         if($employee->photo) {
             Storage::delete(str_replace("storage", "public", $employee->photo));
         }
@@ -887,10 +897,7 @@ class AdminController extends Controller
             'category_id' => ['required', 'string'],
             'supplier_id' => ['required', 'string'],
             'product_name' => ['required', 'string'],
-            'product_description' => ['required', 'string'],
-            'quantity' => ['required', 'string'],
-            'price' => ['required', 'string'],
-            'weight' => ['required', 'string'],
+            'employee_id' => ['required', 'string'],
         ]);
 
         if (request()->hasFile('photo')) 
@@ -909,7 +916,7 @@ class AdminController extends Controller
                 'product_code' => ucfirst(substr($request->product_name, 0, 1)).$this->product_code(3),
                 'quantity' => $request->quantity,
                 'price' => $request->price,
-                'weight' => $request->weight,
+                'employee_id' => $request->employee_id,
                 'product_image' => '/storage/inventory_product_image/'.$filename,
             ]);
 
@@ -927,7 +934,7 @@ class AdminController extends Controller
             'product_code' => ucfirst(substr($request->product_name, 0, 3)).$this->product_code(3),
             'quantity' => $request->quantity,
             'price' => $request->price,
-            'weight' => $request->weight,
+            'employee_id' => $request->employee_id,
         ]);
 
         return back()->with([
@@ -954,10 +961,7 @@ class AdminController extends Controller
             'category_id' => ['required', 'string'],
             'supplier_id' => ['required', 'string'],
             'product_name' => ['required', 'string'],
-            'product_description' => ['required', 'string'],
-            'quantity' => ['required', 'string'],
-            'price' => ['required', 'string'],
-            'weight' => ['required', 'string'],
+            'employee_id' => ['required', 'string'],
         ]);
 
         $Finder = Crypt::decrypt($id);
@@ -982,7 +986,7 @@ class AdminController extends Controller
                 'product_description' => $request->product_description,
                 'quantity' => $request->quantity,
                 'price' => $request->price,
-                'weight' => $request->weight,
+                'employee_id' => $request->employee_id,
                 'product_image' => '/storage/inventory_product_image/'.$filename,
             ]);
 
@@ -999,7 +1003,7 @@ class AdminController extends Controller
             'product_description' => $request->product_description,
             'quantity' => $request->quantity,
             'price' => $request->price,
-            'weight' => $request->weight,
+            'employee_id' => $request->employee_id,
         ]);
 
         return back()->with([
@@ -1387,12 +1391,8 @@ class AdminController extends Controller
         //Validate Request
         $this->validate($request, [
             'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
             'phone_number' => ['required', 'numeric'],
             'email' => ['required', 'string', 'email', 'max:255'],
-            'location' => ['required', 'string', 'max:255'],
-            'how_do_you_know_about_us' => ['required', 'string', 'max:255'],
-            'details' => ['required', 'string'],
         ]);
 
         Enquiry::create([
@@ -1417,12 +1417,8 @@ class AdminController extends Controller
         //Validate Request
         $this->validate($request, [
             'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
             'phone_number' => ['required', 'numeric'],
             'email' => ['required', 'string', 'email', 'max:255'],
-            'location' => ['required', 'string', 'max:255'],
-            'how_do_you_know_about_us' => ['required', 'string', 'max:255'],
-            'details' => ['required', 'string'],
         ]);
         
         $Finder = Crypt::decrypt($id);

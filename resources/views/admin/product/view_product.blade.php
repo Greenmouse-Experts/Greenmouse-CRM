@@ -93,8 +93,14 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="my-select">Weight</label>
-                                                    <input type="text" class="form-control" name="weight" value="{{$product->weight}}" placeholder="Enter Weight">
+                                                    <label for="my-select">Employee</label>
+                                                    <select class="form-control" name="employee_id">
+                                                        <option value="{{App\Models\Employee::find($product->employee_id)->id}}">{{App\Models\Employee::find($product->employee_id)->first_name}} {{App\Models\Employee::find($product->employee_id)->last_name}}</option>
+                                                        <option value="">-- Select Employee --</option>
+                                                        @foreach(\App\Models\Employee::latest()->get() as $employee)
+                                                        <option value="{{$employee->id}}">{{$employee->first_name}} {{$employee->last_name}}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>

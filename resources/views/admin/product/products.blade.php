@@ -37,6 +37,7 @@
                                             <th>Product Image</th>
                                             <th>Product Name</th>
                                             <th>Quantity</th>
+                                            <th>Assigned To</th>
                                             <th>Price</th>
                                             <th>Date Added</th>
                                             <th style="width:5%">Manage</th>
@@ -58,6 +59,7 @@
                                             </td>
                                             <td>{{$product->product_name}}</td>
                                             <td>{{$product->quantity}}</td>
+                                            <td>{{App\Models\Employee::find($product->employee_id)->first_name}} {{App\Models\Employee::find($product->employee_id)->last_name}}</td>
                                             <td>₦{{number_format($product->price, 2)}}</td>
                                             <td>{{$product->created_at->toDayDateTimeString()}}</td>
                                             <td class="text-center">
@@ -163,8 +165,13 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label for="my-select">Weight</label>
-                                                        <input type="text" class="form-control" name="weight" placeholder="Enter Weight">
+                                                        <label for="my-select">Employee</label>
+                                                        <select class="form-control" name="employee_id">
+                                                            <option value="">--Select Employee--</option>
+                                                            @foreach(\App\Models\Employee::latest()->get() as $employee)
+                                                            <option value="{{$employee->id}}">{{$employee->first_name}} {{$employee->last_name}}</option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
