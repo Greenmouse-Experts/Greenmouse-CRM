@@ -29,10 +29,10 @@
                                             <label for="">Title</label>
                                             <div class="row">
                                                 <div class="col-12">
-                                                    <select class="form-control" name="title">
+                                                    <select class="form-control select2" name="title">
                                                         <option value="">--Select Title--</option>
                                                         <option value="Mr.">Mr.</option>
-                                                        <option value="Mrs.">Mrs.</option>
+                                                        <option   option value="Mrs.">Mrs.</option>
                                                         <option value="Miss">Miss</option>
                                                         <option value="Ms.">Ms.</option>
                                                         <option value="Master">Master</option>
@@ -90,7 +90,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <label for="">E-mail Address</label>
-                                                    <input type="email" class="form-control" name="email" placeholder="E-mail Address" aria-describedby="helpId" >
+                                                    <input type="text" class="form-control" name="email" placeholder="E-mail Address" aria-describedby="helpId" >
                                                 </div>
                                             </div>                                                    
                                         </div>

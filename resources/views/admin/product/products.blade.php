@@ -118,7 +118,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="my-select">Category</label>
-                                                <select class="form-control" name="category_id">
+                                                <select class="form-control select2" name="category_id">
                                                     <option value="">--Select Category--</option>
                                                     @foreach(\App\Models\Category::latest()->get() as $category)
                                                     <option value="{{$category->id}}">{{$category->name}}</option>

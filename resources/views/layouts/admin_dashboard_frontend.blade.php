@@ -14,17 +14,16 @@
 
     <!-- Custom styles for this template -->
     <link href="{{URL::asset('assets/css/sb-admin-2.min.css')}}" rel="stylesheet">
-
     <!-- Custom styles for this page -->
     <link href="{{URL::asset('assets/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-
     <!-- Syncfusion Essential JS 2 Styles -->
     <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css" /> 
     <!-- Syncfusion Essential JS 2 Scripts -->
     <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" rel="stylesheet" />
 
     <script type="text/javascript">
         window.setTimeout(function() {
@@ -158,6 +157,7 @@
     <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
     <script src="{{URL::asset('assets/js/jsclock-0.8.min.js') }}"></script>
     <script src="{{URL::asset('assets/js/calculator.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
 
     <script>
         $(document).ready(function() {
