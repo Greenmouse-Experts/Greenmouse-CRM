@@ -32,9 +32,9 @@
                 <a href="{{route('roles')}}" class="collapse-item">Role</a>
                 <a href="{{route('employees')}}" class="collapse-item">Employee</a>
                 <a href="{{route('salary.structure')}}" class="collapse-item">Salary Structure</a>
-                <a href="" class="collapse-item">Leaves/Benefits</a>
-                <a href="" class="collapse-item">Attendance</a>
-                <a href="" class="collapse-item">Appraisal/Report</a>
+                <a href="#" class="collapse-item">Leaves/Benefits</a>
+                <a href="#" class="collapse-item">Attendance</a>
+                <a href="#" class="collapse-item">Appraisal/Report</a>
             </div>
         </div>
     </li>
@@ -54,12 +54,13 @@
 
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFM" aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-users"></i>
+            <i class="fa fa-list-alt"></i>
             <span>Financial Management</span>
         </a>
         <div id="collapseFM" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a href="" class="collapse-item">Sales</a>
+                <a href="{{route('sales')}}" class="collapse-item">Sales</a>
+                <a href="{{route('invoices')}}" class="collapse-item">Invoices</a>
                 <a href="{{route('debtors')}}" class="collapse-item">Debtors</a>
                 <a href="{{route('incomes')}}" class="collapse-item">Incomes</a>
                 <a href="{{route('expenses')}}" class="collapse-item">Expenses</a>
@@ -69,7 +70,7 @@
 
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseInventory" aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-users"></i>
+            <i class="fa fa-briefcase"></i>
             <span>Inventories</span>
         </a>
         <div id="collapseInventory" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -88,7 +89,7 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="{{route('todo.list')}}">
+        <a class="nav-link" href="#">
             <i class="fas fa-list"></i>
             <span>Credential Details</span></a>
     </li>
@@ -100,19 +101,19 @@
         </a>
         <div id="collapseProperty" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a href="" class="collapse-item">Projects</a>
+                <a href="#" class="collapse-item">Projects</a>
             </div>
         </div>
     </li>
 
     <li class="nav-item">
         <a class="nav-link" href="{{route('enquiries')}}">
-            <i class="fas fa-list-alt"></i>
+            <i class="fa fa-sticky-note"></i>
             <span>Enquiry Management</span></a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="{{route('enquiries')}}">
+        <a class="nav-link" href="#">
             <i class="fas fa-list-alt"></i>
             <span>Support Management</span></a>
     </li>
@@ -128,7 +129,7 @@
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSettings" aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-home"></i>
+            <i class="fas fa-cog"></i>
             <span>Settings</span>
         </a>
         <div id="collapseSettings" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">

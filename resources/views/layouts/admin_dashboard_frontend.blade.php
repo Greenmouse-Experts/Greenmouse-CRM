@@ -8,8 +8,11 @@
 
     <title>{{config('app.name')}} | Admin Dashboard</title>
 
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{{URL::asset('favicon.png')}}" />
     <!-- Custom fonts for this template -->
     <link href="{{URL::asset('assets/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template -->
@@ -18,7 +21,7 @@
     <link href="{{URL::asset('assets/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <!-- Syncfusion Essential JS 2 Styles -->
     <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css" /> 
     <!-- Syncfusion Essential JS 2 Scripts -->

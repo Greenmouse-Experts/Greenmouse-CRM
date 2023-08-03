@@ -13,16 +13,22 @@ use App\Models\EmployeeSalary;
 use App\Models\Enquiry;
 use App\Models\Expense;
 use App\Models\Income;
+use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\Property;
 use App\Models\Role;
+use App\Models\Sale;
 use App\Models\Supplier;
 use App\Models\Task;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 use Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
 
 class AdminController extends Controller
 {
@@ -878,7 +884,8 @@ class AdminController extends Controller
         ]);
     }
 
-    function product_code($input, $strength = 3) {
+    function product_code($input, $strength = 3) 
+    {
         $input = '0123456789';
         $input_length = strlen($input);
         $random_string = '';
@@ -894,10 +901,10 @@ class AdminController extends Controller
     {
         //Validate Request
         $this->validate($request, [
-            'category_id' => ['required', 'string'],
-            'supplier_id' => ['required', 'string'],
+            'category_id' => ['required', 'integer'],
+            'supplier_id' => ['required', 'integer'],
             'product_name' => ['required', 'string'],
-            'employee_id' => ['required', 'string'],
+            'employee_id' => ['nullable', 'integer'],
         ]);
 
         if (request()->hasFile('photo')) 
@@ -1070,7 +1077,8 @@ class AdminController extends Controller
         return back();
     }
 
-    public function pending_todo_list($id) {
+    public function pending_todo_list($id) 
+    {
         $Finder = Crypt::decrypt($id);
 
         $task = Task::findorfail($Finder);
@@ -1082,7 +1090,8 @@ class AdminController extends Controller
         return back();
     }
 
-    public function edit_todo_list($id, Request $request) {
+    public function edit_todo_list($id, Request $request) 
+    {
         //Validate Request
         $this->validate($request, [
             'task' => ['required', 'string']
@@ -1102,7 +1111,8 @@ class AdminController extends Controller
         ]);
     }
 
-    public function delete_todo_list($id) {
+    public function delete_todo_list($id) 
+    {
         $Finder = Crypt::decrypt($id);
 
         Task::findorfail($Finder)->delete();
@@ -1373,6 +1383,186 @@ class AdminController extends Controller
         return back()->with([
             'type' => 'success',
             'message' => 'Debtor deleted successfully.',
+        ]);
+    }
+
+    // Sales
+    public function findPrice(Request $request){
+        $data = DB::table('products')->select('price')->where('id', $request->id)->first();
+        return response()->json($data);
+    }
+
+    public function sales() 
+    {
+        $products = Product::all();
+        $sales = Sale::latest()->get();
+
+        return view('admin.financial.sales', [
+            'products' => $products,
+            'sales' => $sales
+        ]);
+    }
+
+    public function add_sale(Request $request) 
+    {
+        $request->validate([
+            'name' => 'required|min:3|regex:/^[a-zA-Z ]+$/',
+            'email' => 'nullable|email',
+            'product_id' => 'required',
+            'qty' => 'required',
+            'price' => 'required',
+            'amount' => 'required',
+        ]);
+
+        $invoice = Invoice::create([
+            'invoice_id' => Str::random(8),
+            'name' => $request->name,
+            'email' => $request->email,
+            'total' => array_sum($request->amount)
+        ]);
+
+        foreach ( $request->product_id as $key => $product_id){
+            $sale = Sale::create([
+                'user_id' => Auth::user()->id,
+                'product_id' => $request->product_id[$key],
+                'invoice_id' => $invoice->id,
+                'name' => $request->name,
+                'email' => $request->email,
+                'quantity' => $request->qty[$key],
+                'price' => $request->price[$key],
+                'amount' => $request->amount[$key],
+                'date_of_payment' => $request->date
+            ]);
+
+            $product = Product::find($sale->product_id);
+
+            $product->update([
+                'quantity' => $product->quantity - $sale->quantity
+            ]);
+        }
+
+        return redirect()->route('sales')->with([
+            'type' => 'success',
+            'message' => 'Sales added successfully.'
+        ]);
+    }
+
+    public function delete_sale($id) 
+    {
+        $Finder = Crypt::decrypt($id);
+
+        $sale = Sale::find($Finder);
+        $invoice = Invoice::find($sale->invoice_id);
+
+        if($invoice)
+        {
+            $invoice->update([
+                'total' => $sale->amount
+            ]);
+        }
+        
+        $sale->delete();
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Sale deleted successfully.',
+        ]);
+    }
+
+    public function invoices()
+    {
+        $invoices = Invoice::latest()->get();
+
+        return view('admin.financial.invoices', [
+            'invoices' => $invoices
+        ]);
+    }
+
+    public function preview_invoice($id)
+    {
+        $Finder = Crypt::decrypt($id);
+
+        $invoice = Invoice::find($Finder);
+
+        return view('admin.financial.preview', [
+            'invoice' => $invoice
+        ]);
+    }
+
+    public function edit_invoice($id)
+    {
+        $Finder = Crypt::decrypt($id);
+
+        $sales = Sale::where('invoice_id', $Finder)->get();
+        $products = Product::orderBy('id', 'DESC')->get();
+        $invoice = Invoice::find($Finder);
+
+        return view('admin.financial.edit', [
+            'sales' => $sales,
+            'products' => $products,
+            'invoice' => $invoice
+        ]);
+    }
+
+    public function update_invoice($id, Request $request) 
+    {
+        $request->validate([
+            'name' => 'required|min:3|regex:/^[a-zA-Z ]+$/',
+            'email' => 'nullable|email',
+            'product_id' => 'required',
+            'qty' => 'required',
+            'price' => 'required',
+            'amount' => 'required',
+        ]);
+
+        $Finder = Crypt::decrypt($id);
+
+        $invoice = Invoice::find($Finder);
+
+        $invoice->update([
+            'invoice_id' => Str::random(8),
+            'name' => $request->name,
+            'email' => $request->email,
+            'total' => array_sum($request->amount)
+        ]);
+
+        Sale::where('invoice_id', $invoice->id)->delete();
+
+        foreach ( $request->product_id as $key => $product_id){
+            $sale = Sale::create([
+                'user_id' => Auth::user()->id,
+                'product_id' => $request->product_id[$key],
+                'invoice_id' => $invoice->id,
+                'name' => $request->name,
+                'email' => $request->email,
+                'quantity' => $request->qty[$key],
+                'price' => $request->price[$key],
+                'amount' => $request->amount[$key],
+                'date_of_payment' => $request->date ?? Carbon::now()->format('Y-m-d')
+            ]);
+
+            $product = Product::find($sale->product_id);
+
+            $product->update([
+                'quantity' => $product->quantity - $sale->quantity
+            ]);
+        }
+
+        return redirect()->route('sales')->with([
+            'type' => 'success',
+            'message' => 'Sales updated successfully.'
+        ]);
+    }
+
+    public function delete_invoice($id)
+    {
+        $Finder = Crypt::decrypt($id);
+
+        Invoice::find($Finder)->delete();
+
+        return back()->with([
+            'type' => 'success',
+            'message' => 'Invoice deleted successfully.',
         ]);
     }
 

@@ -8,11 +8,20 @@
     <div id="content">
 
         <!-- Topbar -->
-        @includeIf('layouts.admin_topbar')>
+        @includeIf('layouts.admin_topbar')
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
+            <div class="app-title">
+                <div>
+                    <h1><i class="fa fa-briefcase"></i> View Product</h1>
+                </div>
+                <ul class="app-breadcrumb breadcrumb">
+                    <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+                    <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                </ul>
+            </div>
             <!-- Content Row -->
             <div class="row">
                 <div class="col-lg-6 mb-4">
@@ -95,7 +104,11 @@
                                                 <div class="form-group">
                                                     <label for="my-select">Employee</label>
                                                     <select class="form-control" name="employee_id">
+                                                        @if (App\Models\Employee::where('id', $product->employee_id)->exists())
                                                         <option value="{{App\Models\Employee::find($product->employee_id)->id}}">{{App\Models\Employee::find($product->employee_id)->first_name}} {{App\Models\Employee::find($product->employee_id)->last_name}}</option>
+                                                        @else
+                                                        <option value="">{{ 'DELETED' }}</option>
+                                                        @endif
                                                         <option value="">-- Select Employee --</option>
                                                         @foreach(\App\Models\Employee::latest()->get() as $employee)
                                                         <option value="{{$employee->id}}">{{$employee->first_name}} {{$employee->last_name}}</option>

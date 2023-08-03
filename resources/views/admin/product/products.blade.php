@@ -13,6 +13,15 @@
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
+            <div class="app-title">
+                <div>
+                    <h1><i class="fa fa-briefcase"></i> Products</h1>
+                </div>
+                <ul class="app-breadcrumb breadcrumb">
+                    <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+                    <li class="breadcrumb-item"><a href="/admin/dashboard">Dashboard</a></li>
+                </ul>
+            </div>
             <!-- DataTales Example -->
             <div class="row">
                 <div class="container-fluid">
@@ -59,7 +68,13 @@
                                             </td>
                                             <td>{{$product->product_name}}</td>
                                             <td>{{$product->quantity}}</td>
-                                            <td>{{App\Models\Employee::find($product->employee_id)->first_name}} {{App\Models\Employee::find($product->employee_id)->last_name}}</td>
+                                            <td>
+                                                @if (App\Models\Employee::where('id', $product->employee_id)->exists())
+                                                {{App\Models\Employee::find($product->employee_id)->first_name}} {{App\Models\Employee::find($product->employee_id)->last_name}}
+                                                @else
+                                                <b>{{ 'NONE' }}</b>
+                                                @endif
+                                            </td>
                                             <td>₦{{number_format($product->price, 2)}}</td>
                                             <td>{{$product->created_at->toDayDateTimeString()}}</td>
                                             <td class="text-center">

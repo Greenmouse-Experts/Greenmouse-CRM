@@ -105,6 +105,18 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::post('/admin/todo-list/delete/{id}', [App\Http\Controllers\AdminController::class, 'delete_todo_list'])->name('delete.todo.list');  
 
     // Financial Management
+    Route::get('/admin/find/price', [App\Http\Controllers\AdminController::class, 'findPrice'])->name('find.price');
+    Route::get('/admin/sales', [App\Http\Controllers\AdminController::class, 'sales'])->name('sales');
+    Route::post('/admin/sale/add', [App\Http\Controllers\AdminController::class, 'add_sale'])->name('add.sale');
+    Route::post('/admin/sale/update/{id}', [App\Http\Controllers\AdminController::class, 'update_sale'])->name('update.sale');
+    Route::post('/admin/sale/delete/{id}', [App\Http\Controllers\AdminController::class, 'delete_sale'])->name('delete.sale');
+
+    Route::get('/admin/invoices', [App\Http\Controllers\AdminController::class, 'invoices'])->name('invoices');
+    Route::get('/admin/invoice/preview/{id}', [App\Http\Controllers\AdminController::class, 'preview_invoice'])->name('preview.invoice');
+    Route::get('/admin/invoice/edit/{id}', [App\Http\Controllers\AdminController::class, 'edit_invoice'])->name('edit.invoice');
+    Route::post('/admin/invoice/update/{id}', [App\Http\Controllers\AdminController::class, 'update_invoice'])->name('update.invoice');
+    Route::post('/admin/invoice/delete/{id}', [App\Http\Controllers\AdminController::class, 'delete_invoice'])->name('delete.invoice');
+
     Route::get('/admin/incomes', [App\Http\Controllers\AdminController::class, 'incomes'])->name('incomes');
     Route::post('/admin/income/add', [App\Http\Controllers\AdminController::class, 'add_income'])->name('add.income');
     Route::post('/admin/income/update/{id}', [App\Http\Controllers\AdminController::class, 'update_income'])->name('update.income');

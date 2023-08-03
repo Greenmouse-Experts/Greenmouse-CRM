@@ -75,51 +75,125 @@
 </nav>
 
 <div id="calculator-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-xs" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title" id="my-modal-title">Calculator</h5>
-                <button class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="calculator card">
-
-                    <input type="text" class="calculator-screen z-depth-1" value="" disabled />
-
-                    <div class="calculator-keys">
-
-                        <button type="button" class="operator btn btn-info" value="+">+</button>
-                        <button type="button" class="operator btn btn-info" value="-">-</button>
-                        <button type="button" class="operator btn btn-info" value="*">&times;</button>
-                        <button type="button" class="operator btn btn-info" value="/">&divide;</button>
-
-                        <button type="button" value="7" class="btn btn-light waves-effect">7</button>
-                        <button type="button" value="8" class="btn btn-light waves-effect">8</button>
-                        <button type="button" value="9" class="btn btn-light waves-effect">9</button>
-
-
-                        <button type="button" value="4" class="btn btn-light waves-effect">4</button>
-                        <button type="button" value="5" class="btn btn-light waves-effect">5</button>
-                        <button type="button" value="6" class="btn btn-light waves-effect">6</button>
-
-
-                        <button type="button" value="1" class="btn btn-light waves-effect">1</button>
-                        <button type="button" value="2" class="btn btn-light waves-effect">2</button>
-                        <button type="button" value="3" class="btn btn-light waves-effect">3</button>
-
-
-                        <button type="button" value="0" class="btn btn-light waves-effect">0</button>
-                        <button type="button" class="decimal function btn btn-secondary" value=".">.</button>
-                        <button type="button" class="all-clear function btn btn-danger btn-sm" value="all-clear">AC</button>
-
-                        <!-- <button type="button" class="percent-sign operator btn btn-info" value="%">&percnt;</button> -->
-                        <button type="button" class="equal-sign operator btn btn-default" value="=">=</button>
-
-                    </div>
+            <div class="modal-body" style="background-color: transparent !important; border: none !important">
+                <div id="calculator">
+                    <p id="last_operation_history"></p>
+                    <p id="box" class="box">0</p>
+                    <table id="table">
+                        <tr>
+                            <td><button onclick="calculate_percentage()">%</button></td>
+                            <td><button onclick="clear_entry()">CE</button></td>
+                            <td><button onclick="button_clear()">C</button></td>
+                            <td><button id="backspace_btn" onclick="backspace_remove()"></button></td>
+                        </tr>
+                        <tr>
+                            <td><button onclick="division_one()">¹∕ₓ</button></td>
+                            <td><button onclick="power_of()">𝑥²</button></td>
+                            <td><button onclick="square_root()">√𝑥</button></td>
+                            <td><button id="plusOp" value="+" class="operator" onclick="button_number('+')">+</button></td>
+                        </tr>
+                        <tr>
+                            <td><button onclick="button_number(7)">7</button></td>
+                            <td><button onclick="button_number(8)">8</button></td>
+                            <td><button onclick="button_number(9)">9</button></td>
+                            <td><button id="subOp" value="-" class="operator" onclick="button_number('-')">-</button></td>
+                        </tr>
+                        <tr>
+                            <td><button onclick="button_number(4)">4</button></td>
+                            <td><button onclick="button_number(5)">5</button></td>
+                            <td><button onclick="button_number(6)">6</button></td>
+                            <td><button id="multiOp" value="*" class="operator" onclick="button_number('*')">×</button></td>
+                        </tr>
+                        <tr>
+                            <td><button onclick="button_number(1)">1</button></td>
+                            <td><button onclick="button_number(2)">2</button></td>
+                            <td><button onclick="button_number(3)">3</button></td>
+                            <td><button id="divOp" value="/" class="operator" onclick="button_number('/')">÷</button></td>
+                        </tr>
+                        <tr>
+                            <td><button onclick="plus_minus()">±</button></td>
+                            <td><button onclick="button_number(0)">0</button></td>
+                            <td><button id="dot" value="." onclick="button_number('.')">.</button></td>
+                            <td colspan="4"><button value="=" class="operator" id="equal_sign" onclick="button_number('=')">=</button></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    #calculator {
+        width: auto;
+        height: auto;
+        padding: 1.5vh;
+        border: 5px solid #666666;
+        border-radius: 15px;
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        background: #0f1506;
+    }
+
+    .box {
+        text-align: right;
+        font-size: 2.8vh;
+        height: 3vh;
+        line-height: 3vh;
+        padding: 1em;
+        border: 2px solid #e68a00;
+        color: white;
+        border-radius: 15px;
+        background-color: black;
+    }
+
+    #last_operation_history {
+        height: 1.8vh;
+        font-size: 1.8vh;
+        text-align: right;
+        padding-right: 1.5vh;
+        color: rgb(177, 176, 176);
+        background-color: black;
+    }
+
+    #table button {
+        width: 9vh;
+        height: 9vh;
+        font-weight: bold;
+        font-size: 3vh;
+        color: white;
+        background-color: #666666;
+        border-radius: 50%;
+        border: 1px solid #333333;
+    }
+
+    #backspace_btn {
+        background-image: url("../assets/img/back_remove.png");
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        background-size: 1.7em;
+    }
+
+    #table button:hover {
+        background-color: #999999;
+    }
+
+    #table .operator {
+        background-color: rgb(58 86 20);
+    }
+
+    #table .operator:hover {
+        background-color: #73aa22;
+    }
+
+    #equal_sign {
+        width: 100%;
+        border-radius: 15px;
+    }
+</style>
