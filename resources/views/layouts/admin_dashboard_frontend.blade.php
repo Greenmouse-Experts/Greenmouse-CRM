@@ -159,7 +159,6 @@
     <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
     <script src="{{URL::asset('assets/js/jsclock-0.8.min.js') }}"></script>
-    <script src="{{URL::asset('assets/js/calculator.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
 
     <script>

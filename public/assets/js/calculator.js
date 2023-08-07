@@ -350,8 +350,8 @@ function clear_entry(){
     }
 }
 
-document.addEventListener('keydown', keyPressed);
-document.addEventListener('keyup', keyReleased);
+// document.addEventListener('keydown', keyPressed);
+// document.addEventListener('keyup', keyReleased);
 
 // function to capture keydown events
 function keyPressed(e) {

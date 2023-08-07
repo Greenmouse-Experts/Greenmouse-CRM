@@ -125,6 +125,7 @@
     </div>
 </div>
 
+<script src="{{URL::asset('assets/js/calculator.js')}}"></script>
 <style>
     #calculator {
         width: auto;
