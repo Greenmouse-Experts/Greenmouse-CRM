@@ -76,8 +76,8 @@
 
 <div id="calculator-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="my-modal-title" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xs" role="document">
-        <div class="modal-content">
-            <div class="modal-body" style="background-color: transparent !important; border: none !important">
+        <div class="modal-content" style="background-color: transparent !important; border: none !important">
+            <div class="modal-body">
                 <div id="calculator">
                     <p id="last_operation_history"></p>
                     <p id="box" class="box">0</p>
