@@ -13,4 +13,8 @@ class Debtor extends Model
     protected $guarded = [];
 
     protected $dates = ['deleted_at'];
+
+    public function client(){
+        return $this->belongsTo('App\Models\Client');
+    }
 }

@@ -15,7 +15,7 @@ class Sale extends Model
     protected $dates = ['deleted_at'];
 
     public function invoice(){
-        return $this->belongsTo('App\Invoice');
+        return $this->belongsTo('App\Models\Invoice');
     }
 
     public function product(){

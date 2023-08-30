@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Mail;
+use PDF;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -42,15 +43,51 @@ class AdminController extends Controller
         $this->middleware('auth');
     }
 
-    public function index() {
-        $staffs = User::latest()->where('user_type', 'Staff')->get();
-        $agents = User::latest()->where('user_type', 'Agent')->get();
-        $users = User::latest()->take(10)->where('user_type', '!=', 'Administrator')->get();
+    public function index(Request $request) {
+        $employees = Employee::get();
+        $incomes = Income::get()->sum('income_amount');
+        $expenses = Expense::get()->sum('expense_amount');
+        $debtors = Debtor::get()->sum('amount_owned');
+        $products = Product::get()->count();
+        $suppliers = Supplier::get()->count();
+
+        $selectedIncomeYear = $request->input('income_year', date('Y')); // Default to current year if not specified
+        $incomesChart = Income::whereYear('income_date', $selectedIncomeYear)
+            ->groupBy('month')
+            ->selectRaw('MONTH(income_date) as month, SUM(income_amount) as total_amount')
+            ->orderBy('month')
+            ->get();
+        
+        $selectedExpensesYear = $request->input('expense_year', date('Y')); // Default to current year if not specified
+        $expensesChart = Expense::whereYear('expense_date', $selectedExpensesYear)
+            ->groupBy('month')
+            ->selectRaw('MONTH(expense_date) as month, SUM(expense_amount) as total_amount')
+            ->orderBy('month')
+            ->get();
+
+        $productsByCategory = DB::table('products')
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->selectRaw('categories.name as category, SUM(products.quantity) as total_quantity')
+            ->groupBy('categories.name')
+            ->get();
+
+        $debtorsChart = Debtor::orderBy('amount_owned', 'desc')->with('client')->get();
+
+        // return $debtorsChart;
 
         return view('admin.dashboard', [
-            'agents' => $agents,
-            'staffs' => $staffs,
-            'users' => $users
+            'incomes' => $incomes,
+            'employees' => $employees->count(),
+            'expenses' => $expenses,
+            'incomesChart' => $incomesChart,
+            'selectedIncomeYear' => $selectedIncomeYear,
+            'expensesChart' => $expensesChart,
+            'selectedExpensesYear' => $selectedExpensesYear,
+            'productsByCategory' => $productsByCategory,
+            'products' => $products,
+            'suppliers' => $suppliers,
+            'debtors' => $debtors,
+            'debtorsChart' => $debtorsChart
         ]);
     }
 
@@ -1642,5 +1679,26 @@ class AdminController extends Controller
             'type' => 'success',
             'message' => 'Enquiry deleted successfully.'
         ]); 
+    }
+
+    public function pdf_invoice($id)
+    {
+        $Finder = Crypt::decrypt($id);
+
+        $invoice = Invoice::find($Finder);
+        $logoUrl = public_path('assets/img/greenmouse-logo.png'); 
+        $sign = "₦";
+
+        // return view('admin.financial.receiptPDF', [
+        //     'invoice' => $invoice
+        // ]);
+
+        $pdf = PDF::loadView('admin.financial.receiptPDF', [
+            'invoice' => $invoice,
+            'logoUrl' => $logoUrl,
+            'sign' => $sign 
+        ]);
+    
+        return $pdf->download('receipt.pdf');
     }
 }

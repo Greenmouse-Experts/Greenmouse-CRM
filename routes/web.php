@@ -113,6 +113,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function () {
 
     Route::get('/admin/invoices', [App\Http\Controllers\AdminController::class, 'invoices'])->name('invoices');
     Route::get('/admin/invoice/preview/{id}', [App\Http\Controllers\AdminController::class, 'preview_invoice'])->name('preview.invoice');
+    Route::get('/admin/invoice/pdf/{id}', [App\Http\Controllers\AdminController::class, 'pdf_invoice'])->name('pdf.invoice');
     Route::get('/admin/invoice/edit/{id}', [App\Http\Controllers\AdminController::class, 'edit_invoice'])->name('edit.invoice');
     Route::post('/admin/invoice/update/{id}', [App\Http\Controllers\AdminController::class, 'update_invoice'])->name('update.invoice');
     Route::post('/admin/invoice/delete/{id}', [App\Http\Controllers\AdminController::class, 'delete_invoice'])->name('delete.invoice');

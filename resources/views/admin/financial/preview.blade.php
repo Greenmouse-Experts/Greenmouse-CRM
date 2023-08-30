@@ -276,6 +276,9 @@
                             </tr>
                         </table>
                         <div class="col-12 text-right mt-5">
+                            <a class="btn btn-primary" href="{{route('pdf.invoice', Crypt::encrypt($invoice->id))}}">
+                                <i class="fa fa-print"></i> Export
+                            </a>
                             <a id="print" class="btn btn-primary" href="javascript:window.print();" target="_blank">
                                 <i class="fa fa-print"></i> Print
                             </a>
