@@ -41,6 +41,22 @@
                     </div>
                 </div>
 
+                <div class="col-xl-4 col-md-6 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Clients</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{$clients}}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-cubes fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Earnings (Monthly) Card Example -->
                 <div class="col-xl-4 col-md-6 mb-4">
                     <div class="card border-left-success shadow h-100 py-2">
@@ -176,7 +192,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="row mt-5">
                 <div class="col-md-6 d-flex">
                     <div class="card radius-10 w-100">
@@ -197,12 +212,12 @@
                         <div class="card-header bg-transparent">
                             <div class="d-flex align-items-center" style="justify-content: space-between;">
                                 <div>
-                                    <h6 class="mb-0">Debtors</h6>
+                                    <h6 class="mb-0">Sales</h6>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body">
-                            <canvas id=""></canvas>
+                            <canvas id="salesChart"></canvas>
                         </div>
                     </div>
                 </div>
@@ -346,6 +361,13 @@
     
     var debtorNames = debtors.map(debtor => debtor.client.first_name);
     var debtAmounts = debtors.map(debtor => debtor.amount_owned);
+    
+    // Generate random background colors
+    var backgroundColorss = [];
+    for (var i = 0; i < debtorNames.length; i++) {
+        var randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+        backgroundColorss.push(randomColor);
+    }
 
     var chart4 = new Chart(debtorChart, {
         type: 'bar',
@@ -354,13 +376,82 @@
             datasets: [{
                 label: 'Debt Amount',
                 data: debtAmounts,
-                backgroundColor: backgroundColors,
+                backgroundColor: backgroundColorss,
             }]
         },
         options: {
             scales: {
                 x: {
                     beginAtZero: true,
+                }
+            }
+        }
+    });
+
+
+    var salesData = @json($salesData);
+    var datessales = salesData.map(item => item.date_of_payment);
+    var amountssales = salesData.map(item => item.amount);
+    var productNamessales = salesData.map(item => item.product.product_name);
+
+    function formatDate(dateString) {
+        var date = new Date(dateString);
+        var year = date.getFullYear();
+        var month = ('0' + (date.getMonth() + 1)).slice(-2); // Adding 1 to month because JavaScript months are zero-based
+        var day = ('0' + date.getDate()).slice(-2);
+        return year + '-' + month + '-' + day;
+    }
+
+    var salesCharts = document.getElementById('salesChart').getContext('2d');
+    var chart5 = new Chart(salesCharts, {
+        type: 'line',
+        data: {
+            labels: datessales,
+            datasets: [{
+                label: 'Sales',
+                data: amountssales,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 2,
+                pointRadius: 4,
+                pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+            }]
+        },
+        options: {
+            scales: {
+                // x: {
+                //     type: 'time',
+                //     time: {
+                //         unit: 'day',
+                //         displayFormats: {
+                //             day: 'MMM DD' // Format of the x-axis labels
+                //         }
+                //     },
+                //     title: {
+                //         display: true,
+                //         text: 'Date'
+                //     }
+                // },
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function (value, index, values) {
+                            return '₦' + value;
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Amount'
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return productNamessales[context.dataIndex] + ': ₦' + context.parsed.y;
+                        }
+                    }
                 }
             }
         }

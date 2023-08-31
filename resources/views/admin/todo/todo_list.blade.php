@@ -53,7 +53,7 @@
                                             <td>
                                                 @if($todoList->status == 'Pending') 
                                                 <div class="text-center">
-                                                    <a href="{{ route('completed.todo.list', Crypt::encrypt($todoList->id)) }}"><span class="badge badge-danger"> {{$todoList->status}} </span></a>
+                                                    <a href="{{ route('completed.todo.list', Crypt::encrypt($todoList->id)) }}"><span class="badge badge-danger"> {{$todoList->status}} </span> <i class="fas fa-check"></i> </a>
                                                 </div>
                                                 @else
                                                 <div class="text-center">

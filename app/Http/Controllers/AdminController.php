@@ -45,6 +45,7 @@ class AdminController extends Controller
 
     public function index(Request $request) {
         $employees = Employee::get();
+        $clients = Client::get();
         $incomes = Income::get()->sum('income_amount');
         $expenses = Expense::get()->sum('expense_amount');
         $debtors = Debtor::get()->sum('amount_owned');
@@ -73,11 +74,12 @@ class AdminController extends Controller
 
         $debtorsChart = Debtor::orderBy('amount_owned', 'desc')->with('client')->get();
 
-        // return $debtorsChart;
+        $salesData = Sale::with('product')->select('date_of_payment', 'amount', 'product_id')->orderBy('date_of_payment')->get();
 
         return view('admin.dashboard', [
             'incomes' => $incomes,
             'employees' => $employees->count(),
+            'clients' => $clients->count(),
             'expenses' => $expenses,
             'incomesChart' => $incomesChart,
             'selectedIncomeYear' => $selectedIncomeYear,
@@ -87,7 +89,8 @@ class AdminController extends Controller
             'products' => $products,
             'suppliers' => $suppliers,
             'debtors' => $debtors,
-            'debtorsChart' => $debtorsChart
+            'debtorsChart' => $debtorsChart,
+            'salesData' => $salesData,
         ]);
     }
 
