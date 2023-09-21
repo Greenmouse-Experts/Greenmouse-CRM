@@ -40,8 +40,10 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th>Title</th>
                                             <th>Task</th>
                                             <th>Status</th>
+                                            <th>Reminder Time</th>
                                             <th>Date Added</th>
                                             <th style="width:5%">Manage</th>
                                         </tr>
@@ -49,6 +51,7 @@
                                     <tbody>
                                         @foreach($todoLists as $todoList)
                                         <tr>
+                                            <td>{{$todoList->title}}</td>
                                             <td>{{$todoList->task}}</td>
                                             <td>
                                                 @if($todoList->status == 'Pending') 
@@ -60,6 +63,10 @@
                                                     <a href="{{ route('pending.todo.list', Crypt::encrypt($todoList->id)) }}"><span class="badge badge-success"><strike> {{$todoList->status}} </strike></span></a>
                                                 </div>
                                                 @endif
+                                            </td>
+                                            <td>
+                                            <label for="reminder_time">Reminder Time:</label>
+                                            <input type="datetime-local" id="reminder_time" name="reminder_time">
                                             </td>
                                             <td>{{$todoList->created_at}}</td>
                                             <td class="text-center">  
@@ -112,9 +119,17 @@
                                                                     <div class="row">
                                                                         <div class="col-md-12">
                                                                             <div class="form-group text-left">
+                                                                                <label for="my-select">Title</label>
+                                                                                <input type="text" class="form-control" name="title" value="{{$todoList->title}}" placeholder="Enter Title">
+                                                                            </div>
+                                                                            <div class="form-group text-left">
                                                                                 <label for="my-select">Task</label>
                                                                                 <textarea type="text" class="form-control" name="task" 
                                                                                                     placeholder="Enter Task">{{$todoList->task}}</textarea>
+                                                                            </div>
+                                                                            <div class="form-group text-left">
+                                                                                <label for="reminder_time">Reminder Time:</label>
+                                                                                <input type="datetime-local" class="form-control" value="{{$todoList->reminder_time}}" name="reminder_time"><br><br>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -152,9 +167,17 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
+                                                <label for="my-select">Title</label>
+                                                <input type="text" class="form-control" name="title"  placeholder="Enter Title">
+                                            </div>
+                                            <div class="form-group">
                                                 <label for="my-select">Task</label>
                                                 <textarea type="text" class="form-control" name="task" 
                                                 placeholder="Enter Task"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="reminder_time">Reminder Time:</label>
+                                                <input type="datetime-local" class="form-control" id="reminder_time" name="reminder_time"><br><br>
                                             </div>
                                         </div>
                                     </div>
@@ -176,4 +199,23 @@
 
 </div>
 <!-- End of Content Wrapper -->
+
+<script>
+    const todos = @json($todoLists); // Assuming you've passed the todos from the controller
+    
+    console.log(todos);
+    todos.forEach(todo => {
+        if (todo.reminder_time) {
+            const reminderTime = new Date(todo.reminder_time).getTime();
+            const now = new Date().getTime();
+
+            if (now < reminderTime) {
+                const timeDifference = reminderTime - now;
+                setTimeout(() => {
+                    alert(`Reminder: ${todo.title}`);
+                }, timeDifference);
+            }
+        }
+    });
+</script>
 @endsection

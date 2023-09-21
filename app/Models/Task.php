@@ -10,6 +10,8 @@ class Task extends Model
     use HasFactory;
 
     protected $fillable = [
-        'task', 'status'
+        'title', 'task', 'status', 'reminder_time'
     ];
+
+    protected $dates = ['reminder_time'];
 }

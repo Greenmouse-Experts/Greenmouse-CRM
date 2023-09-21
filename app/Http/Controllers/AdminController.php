@@ -1091,11 +1091,14 @@ class AdminController extends Controller
     {
         //Validate Request
         $this->validate($request, [
-            'task' => ['required', 'string']
+            'title' => ['required', 'string'],
+            'task' => ['required', 'string'],
         ]);
 
         Task::create([
-            'task' => $request->task
+            'title' => $request->title,
+            'task' => $request->task,
+            'reminder_time' => $request->reminder_time
         ]);
 
         return back()->with([
@@ -1134,6 +1137,7 @@ class AdminController extends Controller
     {
         //Validate Request
         $this->validate($request, [
+            'title' => ['required', 'string'],
             'task' => ['required', 'string']
         ]);
 
@@ -1142,7 +1146,9 @@ class AdminController extends Controller
         $task = Task::findorfail($Finder);
 
         $task->update([
-            'task' => $request->task
+            'task' => $request->task,
+            'task' => $request->task,
+            'reminder_time' => $request->reminder_time
         ]);
 
         return back()->with([
